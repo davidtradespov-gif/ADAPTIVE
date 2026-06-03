@@ -9,6 +9,7 @@ The project root is `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAP
 ## Current Status
 
 - Repo memory files exist: `AGENTS.md`, `DATASETS.md`, `MEMORY.md`, `PROJECT_STATE.md`, `README.md`, `RESEARCH_PRINCIPLES.md`, `RUNBOOK.md`
+- Full provided order-flow education context is stored in `Order Flow Education Context.md`
 - Local Obsidian vault metadata exists under `.obsidian`
 - `ADAPTIVE.md` is the hub note for graph navigation
 - Git repo exists at the project root
