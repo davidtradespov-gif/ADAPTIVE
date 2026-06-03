@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-06-04 08:49 +10:00
+Last updated: 2026-06-04 08:52 +10:00
 
 ## System Summary
 
@@ -15,6 +15,7 @@ Last updated: 2026-06-04 08:49 +10:00
 - Working: `origin` is configured only as `https://github.com/davidtradespov-gif/ADAPTIVE.git`
 - Working: Obsidian vault now lives inside `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE`
 - Working: local Obsidian graph hub exists at `ADAPTIVE.md`
+- Working: local Obsidian vault metadata exists under `.obsidian`
 - Working: local commits `5119a8c` and `9fdf6b2` capture the current project setup and Obsidian sync workflow
 - Not started: codebase structure
 - Not started: runtime environment
@@ -32,12 +33,13 @@ Last updated: 2026-06-04 08:49 +10:00
 - 2026-06-04: The project-local Obsidian vault was created inside the repo root.
 - 2026-06-04: `git ls-remote` against the configured GitHub URL failed with `Repository not found`.
 - 2026-06-04: `git push -u origin main` also failed with `Repository not found`.
+- 2026-06-04: Commit `5db4aa5` moved the active Obsidian vault structure into the project folder.
 
 ## Immediate Next Steps
 
 1. Create and maintain the project-local Obsidian `ADAPTIVE` hub and supporting notes.
 2. Verify the GitHub repository exists and that this environment has access to it.
-3. Push local commits `5119a8c` and `9fdf6b2` to the new GitHub remote once the repository becomes reachable.
+3. Push local commits `5119a8c`, `9fdf6b2`, `7998903`, and `5db4aa5` to the new GitHub remote once the repository becomes reachable.
 
 ## Open Questions
 

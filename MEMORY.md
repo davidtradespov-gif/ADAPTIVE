@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-06-04 08:49 +10:00
+Last updated: 2026-06-04 08:52 +10:00
 
 ## Purpose
 
@@ -16,6 +16,7 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: Accidental nested repo setup was removed so the project root is again `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE`.
 - 2026-06-04: The linked Obsidian vault is the repository root `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE`.
 - 2026-06-04: Obsidian persistence should center on the local `ADAPTIVE.md` hub note that acts as the project spiderweb node.
+- 2026-06-04: The local Obsidian vault metadata now lives under `.obsidian` inside the project folder.
 
 ## Operational Rules
 
