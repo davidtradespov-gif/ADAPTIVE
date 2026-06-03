@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-06-04 08:42 +10:00
+Last updated: 2026-06-04 08:45 +10:00
 
 ## Purpose
 
@@ -34,3 +34,4 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 ## Known Gaps
 
 - 2026-06-04: Git push to `https://github.com/davidtradespov-gif/ADAPTIVE.git` is still unverified because `git ls-remote` returned `Repository not found`.
+- 2026-06-04: `git push -u origin main` still fails with `Repository not found`, so local commits cannot yet be published to GitHub.
