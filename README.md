@@ -10,6 +10,7 @@ Initial project scaffold for the `ADAPTIVE` workspace.
 - `PROJECT_STATE.md`: current state, validated status, and next steps
 - `RESEARCH_PRINCIPLES.md`: independent order-flow strategy build rules
 - `RUNBOOK.md`: repo, Obsidian, and Git persistence workflow
+- `scripts/audit_mgc_dataset.py`: repeatable MGC dataset audit workflow
 
 ## Setup Status
 
@@ -25,4 +26,4 @@ Primary hub note:
 
 ## Next Step
 
-Audit the stored MGC COMEX tick dataset, then build the first independent Gold order-flow research workflow around it.
+Use `scripts/audit_mgc_dataset.py` to validate the stored MGC COMEX tick dataset, then build the first independent Gold order-flow research workflow around it.

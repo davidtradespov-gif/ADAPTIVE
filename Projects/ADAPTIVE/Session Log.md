@@ -16,3 +16,4 @@ Backlink: [[ADAPTIVE]]
 - Recorded a permanent rule that `davidtradespov-gif` is the only allowed GitHub identity and push target for this project.
 - Recorded the MGC COMEX historical trade package as the canonical Gold research dataset and added project research rules.
 - Stored the full provided order-flow education context inside the local Obsidian vault.
+- Installed local parquet support, created a reusable MGC audit script, and generated the first audit report.

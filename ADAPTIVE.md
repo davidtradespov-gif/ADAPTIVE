@@ -7,6 +7,7 @@ Project hub and spiderweb node for the `ADAPTIVE` workspace.
 - [[Projects/ADAPTIVE/Project State]]
 - [[Projects/ADAPTIVE/Decisions]]
 - [[Projects/ADAPTIVE/Order Flow Education Context]]
+- [[Projects/ADAPTIVE/MGC Data Audit]]
 - [[Projects/ADAPTIVE/Session Log]]
 - [[Projects/Projects Index]]
 - [[DATASETS]]
@@ -27,6 +28,8 @@ Project hub and spiderweb node for the `ADAPTIVE` workspace.
 The current project focus is Gold futures research using the stored `MGC` COMEX historical trade tick package inside this project folder.
 
 The full order-flow education handoff is stored in [[Projects/ADAPTIVE/Order Flow Education Context]].
+
+The first dataset audit findings are stored in [[Projects/ADAPTIVE/MGC Data Audit]].
 
 ## Next Steps
 

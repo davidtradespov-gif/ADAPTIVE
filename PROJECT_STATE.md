@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-06-04 09:21 +10:00
+Last updated: 2026-06-04 09:31 +10:00
 
 ## System Summary
 
@@ -23,6 +23,7 @@ Last updated: 2026-06-04 09:21 +10:00
 - Working: local commits `5119a8c` and `9fdf6b2` capture the current project setup and Obsidian sync workflow
 - Working: the canonical MGC Gold tick dataset is stored locally inside the project folder
 - Working: `DATASETS.md` and `RESEARCH_PRINCIPLES.md` define the Gold research baseline
+- Working: `scripts/audit_mgc_dataset.py` can generate repeatable MGC audit reports
 - Not started: codebase structure
 - Not started: runtime environment
 - Not started: tests, scripts, or deployment workflow
@@ -44,12 +45,13 @@ Last updated: 2026-06-04 09:21 +10:00
 - 2026-06-04: Git Credential Manager was refreshed and stored `git:https://github.com` for user `davidtradespov-gif`.
 - 2026-06-04: `git push -u origin main` succeeded and established upstream tracking for `main`.
 - 2026-06-04: MGC package metadata confirmed 204 day folders spanning `2024-06-03` to `2026-01-07`.
+- 2026-06-04: First audit report confirmed 19,701,740 kept rows, six empty day folders, all-null `channel`, and a suspicious minimum price of `-333.0`.
 
 ## Immediate Next Steps
 
-1. Audit the MGC parquet schema, timestamps, duplicates, and session continuity.
-2. Write the first independent Gold order-flow research spec from `RESEARCH_PRINCIPLES.md`.
-3. Continue mirroring meaningful changes into repo memory, the local Obsidian vault, and Git history.
+1. Investigate the `-333.0` minimum price and determine whether it is a bad tick, correction artifact, or valid vendor encoding.
+2. Decide whether spread-style tickers should be filtered out for the first outright MGC strategy baseline.
+3. Write the first independent Gold order-flow research spec from `RESEARCH_PRINCIPLES.md`.
 
 ## Open Questions
 

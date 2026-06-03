@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-06-04 09:21 +10:00
+Last updated: 2026-06-04 09:31 +10:00
 
 ## Purpose
 
@@ -22,6 +22,7 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: Gold strategy research begins with `MGC` COMEX historical trade tick data stored locally inside this project.
 - 2026-06-04: The active MGC package root is `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\mgc_comex_trades_package (2)\mgc_comex_trades_package`.
 - 2026-06-04: Independent order-flow research is allowed; proprietary copied strategy logic is not.
+- 2026-06-04: A reusable MGC audit workflow now exists at `scripts/audit_mgc_dataset.py`.
 
 ## Operational Rules
 
@@ -43,12 +44,14 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 
 ## Known Gaps
 
-- 2026-06-04: Full parquet schema inspection is still pending because the bundled runtime does not currently include a parquet engine.
 - 2026-06-04: Older external-vault notes may still exist in `Documents\Obsidian Vault`, but the active project vault is now the repo root.
+- 2026-06-04: The initial audit is complete, but the `-333.0` minimum price and the spread-versus-outright ticker policy still need resolution.
+- 2026-06-04: The first audit found six empty day folders, all-null `channel` values, and a suspicious minimum `price` of `-333.0` that must be explained before live research assumptions are trusted.
 
 ## Latest Outcome
 
 - 2026-06-04: `git push -u origin main` succeeded after refreshing GitHub credentials to `davidtradespov-gif`.
+- 2026-06-04: The first full MGC audit report was generated successfully after installing local `pyarrow` support into `.python_packages`.
 
 ## Research Guardrails
 
