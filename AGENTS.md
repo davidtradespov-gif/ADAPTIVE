@@ -24,3 +24,4 @@ This repository uses durable project memory. At the start of each session, read:
 - If Obsidian sync is part of the workflow, keep repo memory and vault notes aligned.
 - The linked Obsidian vault for this project is the repository root `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE`.
 - If Git push or Obsidian sync cannot be completed, record the failure clearly in repo memory and the session handoff.
+- Never push this project to any GitHub account or remote owner other than `davidtradespov-gif`.

@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-06-04 09:03 +10:00
+Last updated: 2026-06-04 09:08 +10:00
 
 ## System Summary
 
@@ -19,6 +19,7 @@ Last updated: 2026-06-04 09:03 +10:00
 - Working: the GitHub repo URL is now reachable
 - Working: local GitHub authentication now uses `davidtradespov-gif`
 - Working: `main` has been pushed to `origin/main`
+- Working: project memory now explicitly forbids any push target other than `davidtradespov-gif/ADAPTIVE`
 - Working: local commits `5119a8c` and `9fdf6b2` capture the current project setup and Obsidian sync workflow
 - Not started: codebase structure
 - Not started: runtime environment

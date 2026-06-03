@@ -13,3 +13,4 @@ Backlink: [[ADAPTIVE]]
 - Re-tested after the repository was made public; reachability is fixed, but push now fails with `403 Permission denied to smilefounders-dev`.
 - Refreshed Git Credential Manager authentication to `davidtradespov-gif`.
 - Pushed `main` successfully to `origin/main`.
+- Recorded a permanent rule that `davidtradespov-gif` is the only allowed GitHub identity and push target for this project.

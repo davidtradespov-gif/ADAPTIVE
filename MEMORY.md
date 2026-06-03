@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-06-04 09:03 +10:00
+Last updated: 2026-06-04 09:08 +10:00
 
 ## Purpose
 
@@ -34,6 +34,8 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: Do not refer to, connect to, or use any old GitHub repository for this project.
 - 2026-06-04: Every meaningful project change should be mirrored into Obsidian as well as the repo and Git history.
 - 2026-06-04: Obsidian files should live inside the `ADAPTIVE` folder so they are stored with Git and project files.
+- 2026-06-04: Never ever push this project to any GitHub account other than `davidtradespov-gif`.
+- 2026-06-04: `davidtradespov-gif` is the only permitted GitHub identity and remote owner for `ADAPTIVE`.
 
 ## Known Gaps
 
