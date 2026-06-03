@@ -13,9 +13,9 @@ Initial project scaffold for the `ADAPTIVE` workspace.
 
 The workspace is initialized for persistent project tracking, but application code has not been added yet.
 
-## Linked Obsidian Vault
+## Local Obsidian Vault
 
-This project is linked to the Obsidian vault at `C:\Users\david\OneDrive - My Biologics Pty Ltd\Documents\Obsidian Vault`.
+This project folder is also the Obsidian vault.
 
 Primary hub note:
 

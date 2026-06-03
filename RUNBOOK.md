@@ -5,7 +5,7 @@
 Every meaningful project change must be persisted in three places:
 
 1. repository files in this project
-2. linked Obsidian notes in the vault at `C:\Users\david\OneDrive - My Biologics Pty Ltd\Documents\Obsidian Vault`
+2. linked Obsidian notes inside this project folder
 3. Git history via commit and push
 
 ## Repo Memory Files
@@ -22,14 +22,14 @@ Read these first in every session:
 
 Primary hub note:
 
-- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Documents\Obsidian Vault\ADAPTIVE.md`
+- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\ADAPTIVE.md`
 
 Supporting linked notes:
 
-- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Documents\Obsidian Vault\Projects\ADAPTIVE\Project State.md`
-- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Documents\Obsidian Vault\Projects\ADAPTIVE\Decisions.md`
-- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Documents\Obsidian Vault\Projects\ADAPTIVE\Session Log.md`
-- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Documents\Obsidian Vault\Projects\Projects Index.md`
+- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\Projects\ADAPTIVE\Project State.md`
+- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\Projects\ADAPTIVE\Decisions.md`
+- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\Projects\ADAPTIVE\Session Log.md`
+- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\Projects\Projects Index.md`
 
 ## Minimum Session Steps
 
