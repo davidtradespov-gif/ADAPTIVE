@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-06-04 08:52 +10:00
+Last updated: 2026-06-04 08:58 +10:00
 
 ## System Summary
 
@@ -16,12 +16,13 @@ Last updated: 2026-06-04 08:52 +10:00
 - Working: Obsidian vault now lives inside `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE`
 - Working: local Obsidian graph hub exists at `ADAPTIVE.md`
 - Working: local Obsidian vault metadata exists under `.obsidian`
+- Working: the GitHub repo URL is now reachable
 - Working: local commits `5119a8c` and `9fdf6b2` capture the current project setup and Obsidian sync workflow
 - Not started: codebase structure
 - Not started: runtime environment
 - Not started: tests, scripts, or deployment workflow
 - In progress: Obsidian note synchronization target and hub structure
-- Blocked: Git remote accessibility is not yet confirmed because GitHub returns `Repository not found`
+- Blocked: Git push is using the wrong GitHub identity and is rejected with 403
 
 ## Latest Validated State
 
@@ -34,12 +35,14 @@ Last updated: 2026-06-04 08:52 +10:00
 - 2026-06-04: `git ls-remote` against the configured GitHub URL failed with `Repository not found`.
 - 2026-06-04: `git push -u origin main` also failed with `Repository not found`.
 - 2026-06-04: Commit `5db4aa5` moved the active Obsidian vault structure into the project folder.
+- 2026-06-04: `git ls-remote` to `https://github.com/davidtradespov-gif/ADAPTIVE.git` succeeded after the repo was made public.
+- 2026-06-04: `git push -u origin main` failed with `403 Permission denied to smilefounders-dev`.
 
 ## Immediate Next Steps
 
 1. Create and maintain the project-local Obsidian `ADAPTIVE` hub and supporting notes.
-2. Verify the GitHub repository exists and that this environment has access to it.
-3. Push local commits `5119a8c`, `9fdf6b2`, `7998903`, and `5db4aa5` to the new GitHub remote once the repository becomes reachable.
+2. Replace or refresh the local GitHub credentials so pushes authenticate as `davidtradespov-gif`.
+3. Push local commits `5119a8c`, `9fdf6b2`, `7998903`, `5db4aa5`, and `f959c6a` to the new GitHub remote once credentials are corrected.
 
 ## Open Questions
 

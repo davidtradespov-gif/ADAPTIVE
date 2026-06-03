@@ -18,7 +18,7 @@ Project hub and spiderweb node for the `ADAPTIVE` workspace.
 
 ## Current Summary
 
-`ADAPTIVE` is initialized with durable repo memory, a local Obsidian vault inside the project folder, and a linked hub note that acts as the project spiderweb node.
+`ADAPTIVE` is initialized with durable repo memory, a local Obsidian vault inside the project folder, and a linked hub note that acts as the project spiderweb node. The remaining Git blocker is authentication: GitHub is currently rejecting pushes as `smilefounders-dev`.
 
 ## Next Steps
 
