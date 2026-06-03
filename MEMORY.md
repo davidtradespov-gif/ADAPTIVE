@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-06-04 09:08 +10:00
+Last updated: 2026-06-04 09:21 +10:00
 
 ## Purpose
 
@@ -19,6 +19,9 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: The local Obsidian vault metadata now lives under `.obsidian` inside the project folder.
 - 2026-06-04: The GitHub repository URL is reachable and appears to be a live empty repository.
 - 2026-06-04: Git Credential Manager was re-authenticated to GitHub as `davidtradespov-gif`.
+- 2026-06-04: Gold strategy research begins with `MGC` COMEX historical trade tick data stored locally inside this project.
+- 2026-06-04: The active MGC package root is `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\mgc_comex_trades_package (2)\mgc_comex_trades_package`.
+- 2026-06-04: Independent order-flow research is allowed; proprietary copied strategy logic is not.
 
 ## Operational Rules
 
@@ -36,13 +39,19 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: Obsidian files should live inside the `ADAPTIVE` folder so they are stored with Git and project files.
 - 2026-06-04: Never ever push this project to any GitHub account other than `davidtradespov-gif`.
 - 2026-06-04: `davidtradespov-gif` is the only permitted GitHub identity and remote owner for `ADAPTIVE`.
+- 2026-06-04: Use the stored MGC historical package as the default test bed for all Gold strategies unless replaced by a newer recorded dataset.
 
 ## Known Gaps
 
-- 2026-06-04: Git push to `https://github.com/davidtradespov-gif/ADAPTIVE.git` is still unverified because `git ls-remote` returned `Repository not found`.
-- 2026-06-04: `git push -u origin main` still fails with `Repository not found`, so local commits cannot yet be published to GitHub.
+- 2026-06-04: Full parquet schema inspection is still pending because the bundled runtime does not currently include a parquet engine.
 - 2026-06-04: Older external-vault notes may still exist in `Documents\Obsidian Vault`, but the active project vault is now the repo root.
 
 ## Latest Outcome
 
 - 2026-06-04: `git push -u origin main` succeeded after refreshing GitHub credentials to `davidtradespov-gif`.
+
+## Research Guardrails
+
+- Use order-flow education and first-principles market microstructure only.
+- Do not reconstruct private strategy rules, thresholds, exits, sizing models, or execution behavior from another system.
+- Use chronological splits, conservative fills, and net-of-cost testing for all MGC research.

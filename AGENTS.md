@@ -8,6 +8,8 @@ This repository uses durable project memory. At the start of each session, read:
 - this `AGENTS.md`
 - `RUNBOOK.md`
 - `ADAPTIVE.md`
+- `DATASETS.md`
+- `RESEARCH_PRINCIPLES.md`
 
 ## Required workflow
 
@@ -25,3 +27,4 @@ This repository uses durable project memory. At the start of each session, read:
 - The linked Obsidian vault for this project is the repository root `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE`.
 - If Git push or Obsidian sync cannot be completed, record the failure clearly in repo memory and the session handoff.
 - Never push this project to any GitHub account or remote owner other than `davidtradespov-gif`.
+- Gold strategy research starts with the local MGC historical tick dataset and follows `RESEARCH_PRINCIPLES.md`.

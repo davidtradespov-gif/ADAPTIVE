@@ -14,3 +14,4 @@ Backlink: [[ADAPTIVE]]
 - Refreshed Git Credential Manager authentication to `davidtradespov-gif`.
 - Pushed `main` successfully to `origin/main`.
 - Recorded a permanent rule that `davidtradespov-gif` is the only allowed GitHub identity and push target for this project.
+- Recorded the MGC COMEX historical trade package as the canonical Gold research dataset and added project research rules.

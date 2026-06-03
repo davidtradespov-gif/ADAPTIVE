@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-06-04 09:08 +10:00
+Last updated: 2026-06-04 09:21 +10:00
 
 ## System Summary
 
@@ -21,6 +21,8 @@ Last updated: 2026-06-04 09:08 +10:00
 - Working: `main` has been pushed to `origin/main`
 - Working: project memory now explicitly forbids any push target other than `davidtradespov-gif/ADAPTIVE`
 - Working: local commits `5119a8c` and `9fdf6b2` capture the current project setup and Obsidian sync workflow
+- Working: the canonical MGC Gold tick dataset is stored locally inside the project folder
+- Working: `DATASETS.md` and `RESEARCH_PRINCIPLES.md` define the Gold research baseline
 - Not started: codebase structure
 - Not started: runtime environment
 - Not started: tests, scripts, or deployment workflow
@@ -41,14 +43,14 @@ Last updated: 2026-06-04 09:08 +10:00
 - 2026-06-04: `git push -u origin main` failed with `403 Permission denied to smilefounders-dev`.
 - 2026-06-04: Git Credential Manager was refreshed and stored `git:https://github.com` for user `davidtradespov-gif`.
 - 2026-06-04: `git push -u origin main` succeeded and established upstream tracking for `main`.
+- 2026-06-04: MGC package metadata confirmed 204 day folders spanning `2024-06-03` to `2026-01-07`.
 
 ## Immediate Next Steps
 
-1. Create and maintain the project-local Obsidian `ADAPTIVE` hub and supporting notes.
-2. Start the first functional implementation task.
+1. Audit the MGC parquet schema, timestamps, duplicates, and session continuity.
+2. Write the first independent Gold order-flow research spec from `RESEARCH_PRINCIPLES.md`.
 3. Continue mirroring meaningful changes into repo memory, the local Obsidian vault, and Git history.
 
 ## Open Questions
 
-- What is the first functional goal for `ADAPTIVE`?
-- Where should the linked Obsidian project notes live?
+- What is the first executable Gold research workflow we want to build on top of the MGC dataset?

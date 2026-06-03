@@ -13,8 +13,10 @@ Every meaningful project change must be persisted in three places:
 Read these first in every session:
 
 - `AGENTS.md`
+- `DATASETS.md`
 - `MEMORY.md`
 - `PROJECT_STATE.md`
+- `RESEARCH_PRINCIPLES.md`
 - `README.md`
 - `RUNBOOK.md`
 

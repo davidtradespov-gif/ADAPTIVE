@@ -5,8 +5,10 @@ Initial project scaffold for the `ADAPTIVE` workspace.
 ## Current Contents
 
 - `AGENTS.md`: agent workflow and persistence rules
+- `DATASETS.md`: canonical local research datasets
 - `MEMORY.md`: durable project memory, decisions, and operating rules
 - `PROJECT_STATE.md`: current state, validated status, and next steps
+- `RESEARCH_PRINCIPLES.md`: independent order-flow strategy build rules
 - `RUNBOOK.md`: repo, Obsidian, and Git persistence workflow
 
 ## Setup Status
@@ -23,4 +25,4 @@ Primary hub note:
 
 ## Next Step
 
-Define the first implementation task, then extend this repository with the required code and workflow documentation.
+Audit the stored MGC COMEX tick dataset, then build the first independent Gold order-flow research workflow around it.

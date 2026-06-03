@@ -8,6 +8,8 @@ Project hub and spiderweb node for the `ADAPTIVE` workspace.
 - [[Projects/ADAPTIVE/Decisions]]
 - [[Projects/ADAPTIVE/Session Log]]
 - [[Projects/Projects Index]]
+- [[DATASETS]]
+- [[RESEARCH_PRINCIPLES]]
 - [[README]]
 - [[RUNBOOK]]
 
@@ -20,6 +22,8 @@ Project hub and spiderweb node for the `ADAPTIVE` workspace.
 ## Current Summary
 
 `ADAPTIVE` is initialized with durable repo memory, a local Obsidian vault inside the project folder, and a linked hub note that acts as the project spiderweb node. Git is now authenticated as `davidtradespov-gif` and `main` has been published to GitHub.
+
+The current project focus is Gold futures research using the stored `MGC` COMEX historical trade tick package inside this project folder.
 
 ## Next Steps
 
