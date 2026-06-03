@@ -19,10 +19,11 @@ The project root is `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAP
 - MGC COMEX historical trade data is stored inside the project and is the default Gold research baseline
 - A repeatable audit workflow now exists for the MGC package
 - The current operating assumption is that the stored tick data is sufficient to begin backtesting work
+- The first strategy thesis is now defined as a failed-auction reversal setup in MGC Gold
 - No application code has been added yet
 
 ## Immediate Next Steps
 
-1. Use the stored MGC tick data for the first backtesting workflow.
-2. Write the first leakage-safe Gold order-flow research spec.
+1. Build the first event detector for Strategy 01.
+2. Create leakage-safe backtest labels for Strategy 01.
 3. Keep updating repo memory and linked notes as the project evolves.

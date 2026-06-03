@@ -8,6 +8,7 @@ Project hub and spiderweb node for the `ADAPTIVE` workspace.
 - [[Projects/ADAPTIVE/Decisions]]
 - [[Projects/ADAPTIVE/Order Flow Education Context]]
 - [[Projects/ADAPTIVE/MGC Data Audit]]
+- [[Projects/ADAPTIVE/Strategy 01 - MGC Failed Auction Reversal]]
 - [[Projects/ADAPTIVE/Session Log]]
 - [[Projects/Projects Index]]
 - [[DATASETS]]
@@ -30,6 +31,8 @@ The current project focus is Gold futures research using the stored `MGC` COMEX 
 The full order-flow education handoff is stored in [[Projects/ADAPTIVE/Order Flow Education Context]].
 
 The first dataset audit findings are stored in [[Projects/ADAPTIVE/MGC Data Audit]].
+
+The first strategy direction is stored in [[Projects/ADAPTIVE/Strategy 01 - MGC Failed Auction Reversal]].
 
 ## Next Steps
 

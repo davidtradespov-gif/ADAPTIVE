@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-06-04 09:35 +10:00
+Last updated: 2026-06-04 09:42 +10:00
 
 ## System Summary
 
@@ -24,6 +24,7 @@ Last updated: 2026-06-04 09:35 +10:00
 - Working: the canonical MGC Gold tick dataset is stored locally inside the project folder
 - Working: `DATASETS.md` and `RESEARCH_PRINCIPLES.md` define the Gold research baseline
 - Working: `scripts/audit_mgc_dataset.py` can generate repeatable MGC audit reports
+- Working: the first strategy research spec exists for `Strategy 01: MGC Failed Auction Reversal`
 - Not started: codebase structure
 - Not started: runtime environment
 - Not started: tests, scripts, or deployment workflow
@@ -46,13 +47,14 @@ Last updated: 2026-06-04 09:35 +10:00
 - 2026-06-04: `git push -u origin main` succeeded and established upstream tracking for `main`.
 - 2026-06-04: MGC package metadata confirmed 204 day folders spanning `2024-06-03` to `2026-01-07`.
 - 2026-06-04: First audit report confirmed 19,701,740 kept rows, six empty day folders, all-null `channel`, and a suspicious minimum price of `-333.0`.
+- 2026-06-04: First strategy direction chosen: failed-auction reversal around swept liquidity levels in MGC Gold.
 
 ## Immediate Next Steps
 
-1. Use the stored MGC tick dataset as the backtesting base for the first Gold research workflow.
-2. Write the first independent Gold order-flow research spec from `RESEARCH_PRINCIPLES.md`.
-3. Add the first executable backtest workflow on top of the stored data.
+1. Build the first executable event detector for `Strategy 01: MGC Failed Auction Reversal`.
+2. Create leakage-safe labels and a conservative backtest workflow on the stored MGC tick data.
+3. Review whether the setup is robust enough for a `10,000` account deployment path.
 
 ## Open Questions
 
-- What is the first executable Gold research workflow we want to build on top of the MGC dataset?
+- How should we define the first liquidity-sweep event detector for `Strategy 01`?

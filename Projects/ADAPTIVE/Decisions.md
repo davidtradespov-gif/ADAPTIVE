@@ -12,3 +12,5 @@ Backlink: [[ADAPTIVE]]
 - 2026-06-04: Gold strategy development begins with locally stored `MGC` COMEX historical tick data.
 - 2026-06-04: Strategy research must remain independent and must not copy proprietary private-system rules or thresholds.
 - 2026-06-04: For the current phase, the project only needs to rely on the fact that the MGC tick data is available for backtesting.
+- 2026-06-04: The first strategy thesis will be a failed-auction reversal around swept liquidity in MGC Gold.
+- 2026-06-04: The first live-account design target is a `10,000` account, with early thinking centered on one-contract `MGC`.

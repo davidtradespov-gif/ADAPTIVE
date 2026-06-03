@@ -18,3 +18,4 @@ Backlink: [[ADAPTIVE]]
 - Stored the full provided order-flow education context inside the local Obsidian vault.
 - Installed local parquet support, created a reusable MGC audit script, and generated the first audit report.
 - Recorded that the current requirement is simply that the stored MGC tick data is available for backtesting.
+- Defined the first strategy thesis as an MGC failed-auction reversal setup for a `10,000` live-account design context.

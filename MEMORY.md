@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-06-04 09:31 +10:00
+Last updated: 2026-06-04 09:42 +10:00
 
 ## Purpose
 
@@ -23,6 +23,8 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: The active MGC package root is `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\mgc_comex_trades_package (2)\mgc_comex_trades_package`.
 - 2026-06-04: Independent order-flow research is allowed; proprietary copied strategy logic is not.
 - 2026-06-04: A reusable MGC audit workflow now exists at `scripts/audit_mgc_dataset.py`.
+- 2026-06-04: The first strategy thesis is `Strategy 01: MGC Failed Auction Reversal`.
+- 2026-06-04: The first live-account design context is a `10,000` account with an initial one-contract `MGC` mindset.
 
 ## Operational Rules
 
@@ -53,6 +55,7 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 
 - 2026-06-04: `git push -u origin main` succeeded after refreshing GitHub credentials to `davidtradespov-gif`.
 - 2026-06-04: The first full MGC audit report was generated successfully after installing local `pyarrow` support into `.python_packages`.
+- 2026-06-04: A first Gold strategy research spec was created using a failed-auction reversal thesis.
 
 ## Research Guardrails
 
