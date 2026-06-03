@@ -6,6 +6,7 @@ This repository uses durable project memory. At the start of each session, read:
 - `PROJECT_STATE.md`
 - `README.md`
 - this `AGENTS.md`
+- `RUNBOOK.md`
 
 ## Required workflow
 
@@ -20,4 +21,5 @@ This repository uses durable project memory. At the start of each session, read:
 
 - Durable instructions, decisions, bugs, fixes, and next steps must not live only in chat.
 - If Obsidian sync is part of the workflow, keep repo memory and vault notes aligned.
+- The linked Obsidian vault for this project is `C:\Users\david\OneDrive - My Biologics Pty Ltd\Documents\Obsidian Vault`.
 - If Git push or Obsidian sync cannot be completed, record the failure clearly in repo memory and the session handoff.
