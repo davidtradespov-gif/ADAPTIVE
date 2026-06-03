@@ -18,10 +18,10 @@ Project hub and spiderweb node for the `ADAPTIVE` workspace.
 
 ## Current Summary
 
-`ADAPTIVE` is initialized with durable repo memory, a local Obsidian vault inside the project folder, and a linked hub note that acts as the project spiderweb node. The remaining Git blocker is authentication: GitHub is currently rejecting pushes as `smilefounders-dev`.
+`ADAPTIVE` is initialized with durable repo memory, a local Obsidian vault inside the project folder, and a linked hub note that acts as the project spiderweb node. Git is now authenticated as `davidtradespov-gif` and `main` has been published to GitHub.
 
 ## Next Steps
 
 - Keep this note linked from every meaningful ADAPTIVE project note.
 - Mirror important changes from the repo into the linked notes below.
-- Confirm the GitHub repository exists and push the local repo once access is working.
+- Start the first functional implementation task and keep syncing repo, Obsidian, and Git.

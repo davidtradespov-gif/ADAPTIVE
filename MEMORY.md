@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-06-04 08:58 +10:00
+Last updated: 2026-06-04 09:03 +10:00
 
 ## Purpose
 
@@ -18,6 +18,7 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: Obsidian persistence should center on the local `ADAPTIVE.md` hub note that acts as the project spiderweb node.
 - 2026-06-04: The local Obsidian vault metadata now lives under `.obsidian` inside the project folder.
 - 2026-06-04: The GitHub repository URL is reachable and appears to be a live empty repository.
+- 2026-06-04: Git Credential Manager was re-authenticated to GitHub as `davidtradespov-gif`.
 
 ## Operational Rules
 
@@ -39,4 +40,7 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: Git push to `https://github.com/davidtradespov-gif/ADAPTIVE.git` is still unverified because `git ls-remote` returned `Repository not found`.
 - 2026-06-04: `git push -u origin main` still fails with `Repository not found`, so local commits cannot yet be published to GitHub.
 - 2026-06-04: Older external-vault notes may still exist in `Documents\Obsidian Vault`, but the active project vault is now the repo root.
-- 2026-06-04: GitHub now returns 403 `Permission denied to smilefounders-dev`, so the remaining blocker is local GitHub credentials rather than repo visibility.
+
+## Latest Outcome
+
+- 2026-06-04: `git push -u origin main` succeeded after refreshing GitHub credentials to `davidtradespov-gif`.

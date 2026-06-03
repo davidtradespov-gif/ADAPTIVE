@@ -13,11 +13,11 @@ The project root is `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAP
 - `ADAPTIVE.md` is the hub note for graph navigation
 - Git repo exists at the project root
 - `origin` is configured only as `https://github.com/davidtradespov-gif/ADAPTIVE.git`
-- GitHub repo is reachable, but pushes are failing with `403 Permission denied to smilefounders-dev`
+- GitHub repo is reachable and `main` has been pushed successfully
 - No application code has been added yet
 
 ## Immediate Next Steps
 
-1. Refresh GitHub credentials so Git uses the `davidtradespov-gif` account.
-2. Push the local repo.
-3. Start the first functional implementation task.
+1. Start the first functional implementation task.
+2. Keep updating repo memory and linked notes as the project evolves.
+3. Commit and push each meaningful change.
