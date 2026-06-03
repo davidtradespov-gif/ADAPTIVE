@@ -18,10 +18,11 @@ The project root is `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAP
 - GitHub repo is reachable and `main` has been pushed successfully
 - MGC COMEX historical trade data is stored inside the project and is the default Gold research baseline
 - A repeatable audit workflow now exists for the MGC package
+- The current operating assumption is that the stored tick data is sufficient to begin backtesting work
 - No application code has been added yet
 
 ## Immediate Next Steps
 
-1. Investigate the `-333.0` minimum price anomaly.
-2. Decide the first outright-only filter policy versus spread-inclusive research.
-3. Write the first leakage-safe Gold order-flow research spec.
+1. Use the stored MGC tick data for the first backtesting workflow.
+2. Write the first leakage-safe Gold order-flow research spec.
+3. Keep updating repo memory and linked notes as the project evolves.

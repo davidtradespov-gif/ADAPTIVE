@@ -11,3 +11,4 @@ Backlink: [[ADAPTIVE]]
 - 2026-06-04: The Obsidian graph should center on the `[[ADAPTIVE]]` hub note.
 - 2026-06-04: Gold strategy development begins with locally stored `MGC` COMEX historical tick data.
 - 2026-06-04: Strategy research must remain independent and must not copy proprietary private-system rules or thresholds.
+- 2026-06-04: For the current phase, the project only needs to rely on the fact that the MGC tick data is available for backtesting.

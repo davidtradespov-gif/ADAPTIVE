@@ -17,3 +17,4 @@ Backlink: [[ADAPTIVE]]
 - Recorded the MGC COMEX historical trade package as the canonical Gold research dataset and added project research rules.
 - Stored the full provided order-flow education context inside the local Obsidian vault.
 - Installed local parquet support, created a reusable MGC audit script, and generated the first audit report.
+- Recorded that the current requirement is simply that the stored MGC tick data is available for backtesting.

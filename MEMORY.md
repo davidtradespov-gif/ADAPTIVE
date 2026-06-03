@@ -41,6 +41,7 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: Never ever push this project to any GitHub account other than `davidtradespov-gif`.
 - 2026-06-04: `davidtradespov-gif` is the only permitted GitHub identity and remote owner for `ADAPTIVE`.
 - 2026-06-04: Use the stored MGC historical package as the default test bed for all Gold strategies unless replaced by a newer recorded dataset.
+- 2026-06-04: For the current phase, the important point is that the MGC tick data is present and usable for backtesting.
 
 ## Known Gaps
 

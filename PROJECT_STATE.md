@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-06-04 09:31 +10:00
+Last updated: 2026-06-04 09:35 +10:00
 
 ## System Summary
 
@@ -49,9 +49,9 @@ Last updated: 2026-06-04 09:31 +10:00
 
 ## Immediate Next Steps
 
-1. Investigate the `-333.0` minimum price and determine whether it is a bad tick, correction artifact, or valid vendor encoding.
-2. Decide whether spread-style tickers should be filtered out for the first outright MGC strategy baseline.
-3. Write the first independent Gold order-flow research spec from `RESEARCH_PRINCIPLES.md`.
+1. Use the stored MGC tick dataset as the backtesting base for the first Gold research workflow.
+2. Write the first independent Gold order-flow research spec from `RESEARCH_PRINCIPLES.md`.
+3. Add the first executable backtest workflow on top of the stored data.
 
 ## Open Questions
 
