@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-06-04 09:42 +10:00
+Last updated: 2026-06-04 17:18 +10:00
 
 ## Purpose
 
@@ -26,6 +26,8 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: The first strategy thesis is `Strategy 01: MGC Failed Auction Reversal`.
 - 2026-06-04: The first live-account design context is a `10,000` account with an initial one-contract `MGC` mindset.
 - 2026-06-04: The first user-requested implementation direction is an absorption-reversal strategy for New York session in MGC.
+- 2026-06-04: A first executable Strategy 01 runner now exists at `scripts/strategy_01_absorption_reversal.py`.
+- 2026-06-04: The current Strategy 01 build uses New York session second-bars, session-extreme and opening-range sweep context, rolling signed-flow absorption, reclaim confirmation, net costs, and dynamic contract sizing capped by a 5% starting-balance drawdown budget.
 
 ## Operational Rules
 
@@ -52,12 +54,15 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: The initial audit is complete, but the `-333.0` minimum price and the spread-versus-outright ticker policy still need resolution.
 - 2026-06-04: The first audit found six empty day folders, all-null `channel` values, and a suspicious minimum `price` of `-333.0` that must be explained before live research assumptions are trusted.
 - 2026-06-04: The current MGC package is not a continuous two-year sample, so a true "last 6 months train then 1 year OOS" split is not currently possible.
+- 2026-06-04: Strategy 01 currently reaches the desired minimum `3` trades per day target on the 180-day training window, but only just, so the frequency buffer is still thin.
 
 ## Latest Outcome
 
 - 2026-06-04: `git push -u origin main` succeeded after refreshing GitHub credentials to `davidtradespov-gif`.
 - 2026-06-04: The first full MGC audit report was generated successfully after installing local `pyarrow` support into `.python_packages`.
 - 2026-06-04: A first Gold strategy research spec was created using a failed-auction reversal thesis.
+- 2026-06-04: The first executable Strategy 01 report was generated in `reports/strategy_01_absorption_reversal_report.md`.
+- 2026-06-04: The current Strategy 01 build on the last 180 available day folders produced `273` trades, exactly `3.00` trades per day, `82.42%` win rate, `$7580.70` net PnL, and about `4.66%` max drawdown on a `10,000` starting balance with dynamic sizing capped at `3` contracts.
 
 ## Research Guardrails
 

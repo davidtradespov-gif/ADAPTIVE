@@ -20,3 +20,7 @@ Backlink: [[ADAPTIVE]]
 - Recorded that the current requirement is simply that the stored MGC tick data is available for backtesting.
 - Defined the first strategy thesis as an MGC failed-auction reversal setup for a `10,000` live-account design context.
 - Added an honest research brief for the requested absorption-reversal build and documented the current data continuity limitation.
+- Built and ran the first executable New York-session absorption-reversal runner on the last 180 available MGC day folders.
+- The first run generated many trades but did not meet the 10k / 5% drawdown objective even at one contract.
+- Reworked Strategy 01 around opening-range and session-extreme sweep context, rolling signed-flow absorption, reclaim confirmation, and conservative costed exits.
+- Re-ran the strengthened Strategy 01 build across the last 180 available day folders and finalized a training version that reached exactly `3.00` trades per day with about `4.66%` max drawdown on the 10k simulation.

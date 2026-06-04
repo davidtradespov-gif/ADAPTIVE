@@ -41,6 +41,23 @@ Test the setup around:
 - fresh session extremes
 - equal highs or lows
 
-## Next Build Step
+## Current Build
 
-Build the first event detector and leakage-safe backtest workflow for this setup.
+The current executable build uses:
+
+- New York session only
+- second-bar aggregation from the MGC tick stream
+- prior session-extreme and opening-range sweep context
+- rolling signed-flow and relative-volume absorption filters
+- reclaim confirmation before entry
+- fixed stop, fixed target, time stop, commission, and slippage
+- dynamic contract sizing capped by a `5%` starting-balance drawdown budget
+
+## Current Result
+
+- A strengthened executable runner now exists for this setup.
+- On the last `180` available MGC parquet day folders, New York session only, the current build produced `273` trades and exactly `3.00` trades per day.
+- Win rate was about `82.42%`.
+- Net PnL was about `$7580.70` on the `10,000` training simulation.
+- Max drawdown was about `$465.90`, which is about `4.66%` of starting balance.
+- The current version now satisfies both the drawdown requirement and the minimum `3` trades per day target on the training window.

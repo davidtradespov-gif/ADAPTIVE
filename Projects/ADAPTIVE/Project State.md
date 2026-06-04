@@ -21,10 +21,12 @@ The project root is `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAP
 - The current operating assumption is that the stored tick data is sufficient to begin backtesting work
 - The first strategy thesis is now defined as a failed-auction reversal setup in MGC Gold
 - The requested absorption-reversal build has a stored research brief with explicit data constraints
+- A first executable Strategy 01 runner has now been built and run
+- The current Strategy 01 build now stays under the requested `5%` drawdown ceiling on the `10,000` training simulation while meeting the `3` trades per day target
 - No application code has been added yet
 
 ## Immediate Next Steps
 
-1. Build the first New York-session event detector for Strategy 01.
-2. Create leakage-safe backtest labels for Strategy 01.
-3. Keep updating repo memory and linked notes as the project evolves.
+1. Freeze this Strategy 01 training build and define the first true chronological validation block.
+2. Stress-test the current logic under worse slippage and commission assumptions.
+3. Then extend the same logic family into London and Asia session research.
