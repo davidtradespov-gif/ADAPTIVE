@@ -23,10 +23,11 @@ The project root is `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAP
 - The requested absorption-reversal build has a stored research brief with explicit data constraints
 - A first executable Strategy 01 runner has now been built and run
 - The current Strategy 01 build now stays under the requested `5%` drawdown ceiling on the `10,000` training simulation while meeting the `3` trades per day target
+- A separate high-frequency Strategy 01 research variant now exists for the near-`30` trades/day objective
 - No application code has been added yet
 
 ## Immediate Next Steps
 
-1. Freeze this Strategy 01 training build and define the first true chronological validation block.
-2. Stress-test the current logic under worse slippage and commission assumptions.
+1. Reduce the high-frequency New York-session drawdown from about `36.15%` to under the requested `20%` ceiling.
+2. Freeze one high-frequency candidate build and define the first true chronological validation block.
 3. Then extend the same logic family into London and Asia session research.

@@ -53,6 +53,22 @@ The current executable build uses:
 - fixed stop, fixed target, time stop, commission, and slippage
 - dynamic contract sizing capped by a `5%` starting-balance drawdown budget
 
+## High-Frequency Variant
+
+The current high-frequency research variant uses:
+
+- New York session only
+- second-bar aggregation from the MGC tick stream
+- recent intraday sweep / stop-run context
+- close-location rejection logic
+- CVD and signed-flow pressure-efficiency features
+- volume-burst / activity-expansion features
+- score-based candidate generation
+- a local probability model to rank the candidate pool
+- cooldown spacing and top-quality daily selection toward a `30` trades/day target
+- fixed stop, fixed target, time stop, opposite-pressure exit, commission, and slippage
+- dynamic contract sizing capped by a `20%` starting-balance drawdown budget
+
 ## Current Result
 
 - A strengthened executable runner now exists for this setup.
@@ -61,3 +77,11 @@ The current executable build uses:
 - Net PnL was about `$7580.70` on the `10,000` training simulation.
 - Max drawdown was about `$465.90`, which is about `4.66%` of starting balance.
 - The current version now satisfies both the drawdown requirement and the minimum `3` trades per day target on the training window.
+
+## High-Frequency Result
+
+- The high-frequency New York-session build on the last `180` available MGC parquet day folders produced `5,493` selected trades and about `29.85` trades per day.
+- Win rate was about `71.20%`.
+- Net PnL was about `$4888.60` on the `10,000` training simulation.
+- Max drawdown was about `$3614.70`, which is about `36.15%` of starting balance.
+- This means the `30` trades/day objective is nearly reached on the training window, but the current high-frequency build is still not inside the requested `20%` max drawdown ceiling.

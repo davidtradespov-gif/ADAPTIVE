@@ -24,3 +24,5 @@ Backlink: [[ADAPTIVE]]
 - The first run generated many trades but did not meet the 10k / 5% drawdown objective even at one contract.
 - Reworked Strategy 01 around opening-range and session-extreme sweep context, rolling signed-flow absorption, reclaim confirmation, and conservative costed exits.
 - Re-ran the strengthened Strategy 01 build across the last 180 available day folders and finalized a training version that reached exactly `3.00` trades per day with about `4.66%` max drawdown on the 10k simulation.
+- Built a separate high-frequency New York-session Strategy 01 variant using sweep/rejection candidate generation, pressure features, probability ranking, and top-quality daily selection toward `30` trades per day.
+- Verified that the high-frequency build reaches about `29.85` trades per day on the full 180-day training run, but it still carries about `36.15%` max drawdown and is not yet inside the requested `20%` ceiling.
