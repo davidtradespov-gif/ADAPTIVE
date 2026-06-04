@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-06-04 21:11 +10:00
+Last updated: 2026-06-05 11:05 +10:00
 
 ## Purpose
 
@@ -67,6 +67,18 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-05: A full continuity audit on this laptop confirmed the local repo, Obsidian vault, MGC dataset, strategy scripts, and reports are present, and the project memory layer was re-baselined to `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE`.
 - 2026-06-05: GitHub fetch and push both succeeded from this laptop against `https://github.com/davidtradespov-gif/ADAPTIVE.git` after ensuring Git Credential Manager could see `git.exe` on `PATH`.
 - 2026-06-05: This laptop path `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE` is now the authoritative project baseline and old machine-specific path references should be removed from repo memory, Obsidian notes, and setup docs.
+- 2026-06-05: Continuity audit confirmed the local `scripts/strategy_01_absorption_reversal.py` and `reports/strategy_01_absorption_reversal_report.md` fully contain the managed-exit high-frequency Strategy 01 checkpoint associated with commit `3fef09a`, with no missing strategy reconstruction required.
+
+## Consolidated Strategy 01 Checkpoint
+
+- 2026-06-05: Canonical local strategy state is `Strategy 01: MGC New York-session absorption reversal`.
+- 2026-06-05: Thesis remains a failed-auction / absorption-reversal idea after a recent intraday sweep or stop-run where aggressive pressure fails to continue and price rejects back.
+- 2026-06-05: The active high-frequency build uses New York session second-bars, recent intraday sweep context, close-location rejection logic, signed-flow and short-horizon CVD pressure features, activity expansion via relative size, opening-range context bonus, probability-style candidate ranking, cooldown spacing, and top-quality daily selection toward `30` trades/day.
+- 2026-06-05: The active managed exits are hard stop, break-even promotion, trailing-stop activation, runner activation, runner trail distance, session flatten, time exit, and opposite-pressure exit.
+- 2026-06-05: Dynamic sizing is still balance-based but effectively capped at `1` contract in the current report because the one-contract training drawdown already consumes most of the `20%` starting-balance drawdown budget.
+- 2026-06-05: Current reported training result on the last `180` available parquet day folders is `5,493` trades, about `29.85` trades/day, `79.92%` win rate, about `$117103.00` net PnL, and about `18.74%` max drawdown on a `10,000` simulation.
+- 2026-06-05: Honesty constraint remains unchanged: the probability selector is trained on the same `180`-day candidate pool used for selection, so this is still a strategy-construction result and not true chronological validation or OOS evidence.
+- 2026-06-05: The next exact build step is to freeze this training configuration and add the first true chronological validation block before any redesign or extension.
 
 ## Research Guardrails
 

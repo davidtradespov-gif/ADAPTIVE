@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-06-04 21:11 +10:00
+Last updated: 2026-06-05 11:05 +10:00
 
 ## System Summary
 
@@ -61,12 +61,22 @@ Last updated: 2026-06-04 21:11 +10:00
 - 2026-06-05: Continuity audit on this laptop confirmed the repo, local vault, dataset, scripts, reports, and project notes are present, but several files still contained stale references to the old OneDrive-based path.
 - 2026-06-05: The stale path references were removed from repo memory, setup docs, and linked Obsidian notes so this laptop path is now the active baseline.
 - 2026-06-05: `git fetch origin` and `git push origin main` both succeeded from this laptop after correcting the shell `PATH` so Git Credential Manager could locate `git.exe`.
+- 2026-06-05: A full continuity audit confirmed that the current local script and report already match the canonical managed-exit high-frequency Strategy 01 checkpoint from commit `3fef09a`, aside from later laptop-baseline documentation updates.
 
 ## Immediate Next Steps
 
 1. Freeze this high-frequency Strategy 01 training build and define the first true chronological validation block.
 2. Stress-test the managed-exit version under worse slippage and commission assumptions.
 3. Then extend the same logic family into London and Asia session research.
+
+## Active Strategy Checkpoint
+
+- Strategy: `Strategy 01: MGC New York-session absorption reversal`
+- Dataset scope: last `180` available MGC parquet day folders from the local segmented canonical dataset
+- Current build type: high-frequency managed-exit training build
+- Selection state: same-window probability-ranked candidate selection, not chronological validation
+- Current result: `5,493` trades, about `29.85` trades/day, `79.92%` win rate, about `$117103.00` net PnL, about `18.74%` max drawdown on a `10,000` sim
+- Active limitation: the probability selector is still fit on the same candidate pool, so no true validation or OOS claim is valid yet
 
 ## Open Questions
 

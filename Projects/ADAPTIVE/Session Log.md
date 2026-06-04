@@ -37,3 +37,5 @@ Backlink: [[ADAPTIVE]]
 - Confirmed the local Obsidian vault metadata and linked project notes are present inside this folder.
 - Re-baselined project memory, setup docs, and linked notes to `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE` as the new authoritative project path.
 - Confirmed GitHub fetch and push both work from this laptop after correcting the shell context so Git Credential Manager can locate `git.exe`.
+- Re-ran a continuity comparison against the canonical Strategy 01 checkpoint and confirmed the local managed-exit high-frequency script and report state already match the expected build.
+- Recorded a fresh consolidated Strategy 01 checkpoint into repo memory and the linked Obsidian notes so future sessions can resume from this laptop without chat history.

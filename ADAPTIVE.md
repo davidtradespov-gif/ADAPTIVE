@@ -25,7 +25,7 @@ Project hub and spiderweb node for the `ADAPTIVE` workspace.
 
 ## Current Summary
 
-`ADAPTIVE` is initialized with durable repo memory, a local Obsidian vault inside the project folder, and a linked hub note that acts as the project spiderweb node. Git is now authenticated as `davidtradespov-gif` and `main` has been published to GitHub.
+`ADAPTIVE` is running from this laptop as the canonical local trading, research, and storage environment. Durable repo memory, the local Obsidian vault, the MGC dataset, the Strategy 01 script, and the current reports all live inside this folder, and Git is authenticated to `davidtradespov-gif`.
 
 The current project focus is Gold futures research using the stored `MGC` COMEX historical trade tick package inside this project folder.
 
@@ -33,7 +33,7 @@ The full order-flow education handoff is stored in [[Projects/ADAPTIVE/Order Flo
 
 The first dataset audit findings are stored in [[Projects/ADAPTIVE/MGC Data Audit]].
 
-The first strategy direction is stored in [[Projects/ADAPTIVE/Strategy 01 - MGC Failed Auction Reversal]].
+The first strategy direction and its current managed-exit high-frequency checkpoint are stored in [[Projects/ADAPTIVE/Strategy 01 - MGC Failed Auction Reversal]].
 
 The honest implementation brief for the requested absorption-reversal build is stored in [[Projects/ADAPTIVE/Strategy 01 Research Brief]].
 
@@ -41,4 +41,4 @@ The honest implementation brief for the requested absorption-reversal build is s
 
 - Keep this note linked from every meaningful ADAPTIVE project note.
 - Mirror important changes from the repo into the linked notes below.
-- Start the first functional implementation task and keep syncing repo, Obsidian, and Git.
+- Freeze the current Strategy 01 training build and add the first true chronological validation block before any redesign.
