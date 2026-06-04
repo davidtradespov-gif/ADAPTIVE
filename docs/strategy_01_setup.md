@@ -13,7 +13,7 @@
 - Generate high-frequency sweep/rejection candidates using close location, signed-flow pressure, CVD-vs-price efficiency, and activity expansion
 - Rank the candidate pool with a local probability model trained on the same training-window outcomes
 - Select up to `30` distinct setups per day with cooldown spacing
-- Simulate fixed stop, fixed target, time-stop, and opposite-pressure exits net of commission and slippage
+- Simulate managed exits with a hard stop, break-even promotion, trailing stop activation, runner hold/trail logic, time exits, session flatten, and opposite-pressure exits net of commission and slippage
 - Apply dynamic contract sizing with a hard cap derived from a `20%` drawdown budget on a `10,000` starting balance
 
 ## Runner
@@ -39,4 +39,5 @@ This is a practical working build choice on the available data, not a claim that
 ## Current Reality Check
 
 - The current high-frequency build gets very close to the requested `30` trades per day target on the full New York-session training run.
-- It does not yet hold full-window drawdown under the requested `20%` cap, so this version is still a strategy-construction build rather than a finished deployable model.
+- The current full training result is about `29.85` trades per day, about `$117,103.00` net PnL, and about `18.74%` max drawdown on a `10,000` starting balance.
+- The probability selector is still trained on the same 180-day candidate pool, so this is a strategy-construction result and still needs true chronological validation before any live claim.

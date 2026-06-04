@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-06-04 18:43 +10:00
+Last updated: 2026-06-04 21:11 +10:00
 
 ## System Summary
 
@@ -29,6 +29,7 @@ Last updated: 2026-06-04 18:43 +10:00
 - Working: a first executable Strategy 01 runner exists and can generate report files
 - Working: the current Strategy 01 build now stays within the requested 5% drawdown ceiling on the 10k training simulation while meeting the `3` trades per day target
 - Working: a separate high-frequency Strategy 01 build now exists for the `30` trades/day research target
+- Working: the current high-frequency Strategy 01 managed-exit build now fits the requested training-window target envelope on the full 180-day New York-session run
 - Not started: codebase structure
 - Not started: runtime environment
 - Not started: tests, scripts, or deployment workflow
@@ -55,14 +56,14 @@ Last updated: 2026-06-04 18:43 +10:00
 - 2026-06-04: Current dataset continuity does not support a true last-6-month train plus 1-year OOS workflow.
 - 2026-06-04: First Strategy 01 run on the last 180 available day folders produced 8,512 simulated trades and about 46.26 trades per day in New York session, but one-contract drawdown was about 22.63% of a 10k account.
 - 2026-06-04: The current Strategy 01 build produced 273 simulated trades, exactly 3.00 trades per day, 82.42% win rate, `$7580.70` net PnL, and about 4.66% max drawdown on a 10k starting balance with dynamic sizing capped at 3 contracts.
-- 2026-06-04: The high-frequency Strategy 01 build targeting about 30 trades/day produced 5,493 selected trades, about 29.85 trades per day, 71.20% win rate, `$4888.60` net PnL, and about 36.15% max drawdown on the full 180-day New York-session training run.
+- 2026-06-04: The current high-frequency Strategy 01 managed-exit build produced 5,493 selected trades, about 29.85 trades per day, 79.92% win rate, `$117103.00` net PnL, and about 18.74% max drawdown on the full 180-day New York-session training run.
 
 ## Immediate Next Steps
 
-1. Reduce high-frequency Strategy 01 drawdown from about `36.15%` to under the requested `20%` ceiling without losing the near-`30` trades/day profile.
-2. Freeze one high-frequency candidate build and define the first true chronological validation block.
+1. Freeze this high-frequency Strategy 01 training build and define the first true chronological validation block.
+2. Stress-test the managed-exit version under worse slippage and commission assumptions.
 3. Then extend the same logic family into London and Asia session research.
 
 ## Open Questions
 
-- Can the high-frequency New York-only Strategy 01 build be brought under `20%` drawdown while preserving roughly `30` trades/day on the full training window?
+- How stable is the current high-frequency managed-exit result once we move from same-window training selection to proper chronological validation?

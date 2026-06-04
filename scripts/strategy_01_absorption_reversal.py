@@ -56,11 +56,18 @@ class StrategyConfig:
     reclaim_ticks: int = 0
     rejection_seconds: int = 15
     cooldown_seconds: int = 8
-    stop_ticks: int = 7
-    target_ticks: int = 8
-    max_hold_seconds: int = 240
-    opposite_flow_exit_threshold: float = 35.0
-    adverse_ticks_before_flow_exit: int = 2
+    hard_stop_ticks: int = 5
+    break_even_activation_ticks: int = 3
+    break_even_lock_ticks: int = 1
+    trail_activation_ticks: int = 4
+    trail_distance_ticks: int = 3
+    runner_min_score: float = 0.72
+    runner_activation_ticks: int = 6
+    runner_trail_distance_ticks: int = 9
+    normal_max_hold_seconds: int = 900
+    runner_max_hold_seconds: int = 3600
+    opposite_flow_exit_threshold: float = 50.0
+    adverse_ticks_before_flow_exit: int = 3
     min_rejection_close_location: float = 0.55
     max_rejection_close_location: float = 0.45
     min_probability_score: float = 0.0
@@ -315,7 +322,7 @@ def fit_probability_model(events: pd.DataFrame, trades: pd.DataFrame) -> pd.Data
     if events.empty or trades.empty:
         return events
     labels = trades[["event_ts_utc", "direction", "ticker", "pnl_dollars_1_contract", "exit_reason"]].copy()
-    labels["target_hit"] = (labels["exit_reason"] == "target").astype(int)
+    labels["target_hit"] = labels["pnl_dollars_1_contract"].gt(2.0).astype(int)
     merged = events.merge(labels, on=["event_ts_utc", "direction", "ticker"], how="left")
     merged["target_hit"] = merged["target_hit"].fillna(0).astype(int)
     if merged["target_hit"].nunique() < 2:
@@ -366,43 +373,66 @@ def simulate_trades(events: pd.DataFrame, full_df: pd.DataFrame, cfg: StrategyCo
         return pd.DataFrame()
     trades = []
     tick_value = 1.0
-    stop_distance = cfg.stop_ticks * tick_value
-    target_distance = cfg.target_ticks * tick_value
     round_trip_cost = 2 * cfg.commission_per_side + 2 * cfg.slippage_per_side_ticks * tick_value
     full_df = full_df.sort_values("ts_utc").reset_index(drop=True)
     for _, event in events.iterrows():
         entry_ts = pd.Timestamp(event["event_ts_utc"])
         entry_price = float(event["entry_price"])
         direction = event["direction"]
-        future = full_df[(full_df["ts_utc"] > entry_ts) & (full_df["ts_utc"] <= entry_ts + pd.Timedelta(seconds=cfg.max_hold_seconds))]
+        runner_candidate = float(event.get("probability_score", 0.0)) >= cfg.runner_min_score
+        max_hold_seconds = cfg.runner_max_hold_seconds if runner_candidate else cfg.normal_max_hold_seconds
+        future = full_df[(full_df["ts_utc"] > entry_ts) & (full_df["ts_utc"] <= entry_ts + pd.Timedelta(seconds=max_hold_seconds))]
         if future.empty:
             continue
         exit_reason = "time"
         exit_price = float(future.iloc[-1]["price"])
+        best_price = entry_price
+        stop_price = entry_price - cfg.hard_stop_ticks if direction == "long" else entry_price + cfg.hard_stop_ticks
+        trail_active = False
+        runner_active = False
         for _, row in future.iterrows():
             price = float(row["price"])
             signed_flow = float(row["signed_flow"])
+            row_ts_ny = row["ts_ny"]
+            if row_ts_ny.hour >= cfg.session_end_hour:
+                exit_price = price
+                exit_reason = "session_flat"
+                break
             if direction == "long":
-                if price <= entry_price - stop_distance:
-                    exit_price = entry_price - stop_distance
-                    exit_reason = "stop"
-                    break
-                if price >= entry_price + target_distance:
-                    exit_price = entry_price + target_distance
-                    exit_reason = "target"
+                best_price = max(best_price, price)
+                favorable_ticks = best_price - entry_price
+                if favorable_ticks >= cfg.break_even_activation_ticks:
+                    stop_price = max(stop_price, entry_price + cfg.break_even_lock_ticks)
+                if favorable_ticks >= cfg.trail_activation_ticks:
+                    trail_active = True
+                if runner_candidate and favorable_ticks >= cfg.runner_activation_ticks:
+                    runner_active = True
+                if trail_active:
+                    trail_distance = cfg.runner_trail_distance_ticks if runner_active else cfg.trail_distance_ticks
+                    stop_price = max(stop_price, best_price - trail_distance)
+                if price <= stop_price:
+                    exit_price = stop_price
+                    exit_reason = "trailing_stop" if trail_active else "hard_stop"
                     break
                 if price <= entry_price - cfg.adverse_ticks_before_flow_exit and signed_flow <= -cfg.opposite_flow_exit_threshold:
                     exit_price = price
                     exit_reason = "opposite_flow"
                     break
             else:
-                if price >= entry_price + stop_distance:
-                    exit_price = entry_price + stop_distance
-                    exit_reason = "stop"
-                    break
-                if price <= entry_price - target_distance:
-                    exit_price = entry_price - target_distance
-                    exit_reason = "target"
+                best_price = min(best_price, price)
+                favorable_ticks = entry_price - best_price
+                if favorable_ticks >= cfg.break_even_activation_ticks:
+                    stop_price = min(stop_price, entry_price - cfg.break_even_lock_ticks)
+                if favorable_ticks >= cfg.trail_activation_ticks:
+                    trail_active = True
+                if runner_candidate and favorable_ticks >= cfg.runner_activation_ticks:
+                    runner_active = True
+                if trail_active:
+                    trail_distance = cfg.runner_trail_distance_ticks if runner_active else cfg.trail_distance_ticks
+                    stop_price = min(stop_price, best_price + trail_distance)
+                if price >= stop_price:
+                    exit_price = stop_price
+                    exit_reason = "trailing_stop" if trail_active else "hard_stop"
                     break
                 if price >= entry_price + cfg.adverse_ticks_before_flow_exit and signed_flow >= cfg.opposite_flow_exit_threshold:
                     exit_price = price
@@ -417,6 +447,7 @@ def simulate_trades(events: pd.DataFrame, full_df: pd.DataFrame, cfg: StrategyCo
             "entry_price": entry_price,
             "exit_price": exit_price,
             "exit_reason": exit_reason,
+            "runner_candidate": runner_candidate,
             "pnl_dollars_1_contract": pnl_dollars,
         })
     return pd.DataFrame(trades)
@@ -583,7 +614,7 @@ def write_markdown(report: dict) -> str:
         f"- Win rate: `{summary['win_rate']:.4f}`",
         f"- Average trade PnL: `${summary['avg_trade_pnl']:.2f}`",
         f"- Baseline max drawdown at 1 contract: `${summary['baseline_max_drawdown_1_contract']:.2f}`",
-        f"- Dynamic contracts cap from 5% drawdown budget: `{summary['contracts_cap']}`",
+        f"- Dynamic contracts cap from {report['config']['max_drawdown_fraction']:.0%} drawdown budget: `{summary['contracts_cap']}`",
         f"- Net PnL: `${summary['net_pnl']:.2f}`",
         f"- Ending balance: `${summary['ending_balance']:.2f}`",
         f"- Max drawdown dollars: `${summary['max_drawdown_dollars']:.2f}`",

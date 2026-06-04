@@ -66,7 +66,7 @@ The current high-frequency research variant uses:
 - score-based candidate generation
 - a local probability model to rank the candidate pool
 - cooldown spacing and top-quality daily selection toward a `30` trades/day target
-- fixed stop, fixed target, time stop, opposite-pressure exit, commission, and slippage
+- managed exits with hard stop, break-even promotion, trailing stop activation, runner hold/trail logic, time exit, session flatten, opposite-pressure exit, commission, and slippage
 - dynamic contract sizing capped by a `20%` starting-balance drawdown budget
 
 ## Current Result
@@ -81,7 +81,7 @@ The current high-frequency research variant uses:
 ## High-Frequency Result
 
 - The high-frequency New York-session build on the last `180` available MGC parquet day folders produced `5,493` selected trades and about `29.85` trades per day.
-- Win rate was about `71.20%`.
-- Net PnL was about `$4888.60` on the `10,000` training simulation.
-- Max drawdown was about `$3614.70`, which is about `36.15%` of starting balance.
-- This means the `30` trades/day objective is nearly reached on the training window, but the current high-frequency build is still not inside the requested `20%` max drawdown ceiling.
+- Win rate was about `79.92%`.
+- Net PnL was about `$117103.00` on the `10,000` training simulation.
+- Max drawdown was about `$1874.30`, which is about `18.74%` of starting balance.
+- This means the current high-frequency managed-exit build now fits the requested training-window target envelope while still needing true chronological validation before any live claim.

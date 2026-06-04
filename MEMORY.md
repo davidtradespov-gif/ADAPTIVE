@@ -1,6 +1,6 @@
 # Project Memory
 
-Last updated: 2026-06-04 18:43 +10:00
+Last updated: 2026-06-04 21:11 +10:00
 
 ## Purpose
 
@@ -27,7 +27,7 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: The first live-account design context is a `10,000` account with an initial one-contract `MGC` mindset.
 - 2026-06-04: The first user-requested implementation direction is an absorption-reversal strategy for New York session in MGC.
 - 2026-06-04: A first executable Strategy 01 runner now exists at `scripts/strategy_01_absorption_reversal.py`.
-- 2026-06-04: The current high-frequency Strategy 01 build uses New York session second-bars, recent intraday sweep context, opening-range context bonus, signed-flow/CVD pressure features, score-based selection, a local probability model, net costs, and dynamic contract sizing capped by a 20% starting-balance drawdown budget.
+- 2026-06-04: The current high-frequency Strategy 01 build uses New York session second-bars, recent intraday sweep context, opening-range context bonus, signed-flow/CVD pressure features, score-based selection, a local probability model, managed trailing/runner exits, net costs, and dynamic contract sizing capped by a 20% starting-balance drawdown budget.
 
 ## Operational Rules
 
@@ -54,7 +54,7 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: The initial audit is complete, but the `-333.0` minimum price and the spread-versus-outright ticker policy still need resolution.
 - 2026-06-04: The first audit found six empty day folders, all-null `channel` values, and a suspicious minimum `price` of `-333.0` that must be explained before live research assumptions are trusted.
 - 2026-06-04: The current MGC package is not a continuous two-year sample, so a true "last 6 months train then 1 year OOS" split is not currently possible.
-- 2026-06-04: The current high-frequency Strategy 01 build gets very close to the desired `30` trades per day target on the full 180-day New York-session training run, but it still misses the requested max `20%` drawdown objective.
+- 2026-06-04: The current high-frequency Strategy 01 build now fits the requested training-window envelope, producing about `29.85` trades per day with about `18.74%` max drawdown on the full 180-day New York-session run.
 
 ## Latest Outcome
 
@@ -63,7 +63,7 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: A first Gold strategy research spec was created using a failed-auction reversal thesis.
 - 2026-06-04: The first executable Strategy 01 report was generated in `reports/strategy_01_absorption_reversal_report.md`.
 - 2026-06-04: The stable low-frequency Strategy 01 build on the last 180 available day folders produced `273` trades, exactly `3.00` trades per day, `82.42%` win rate, `$7580.70` net PnL, and about `4.66%` max drawdown on a `10,000` starting balance with dynamic sizing capped at `3` contracts.
-- 2026-06-04: The current high-frequency Strategy 01 build targeting about `30` trades per day produced `5,493` selected New York-session trades, about `29.85` trades per day, `71.20%` win rate, `$4888.60` net PnL, and about `36.15%` max drawdown on the full 180-day training run. It is not yet inside the requested `20%` drawdown ceiling.
+- 2026-06-04: The current high-frequency Strategy 01 build targeting about `30` trades per day produced `5,493` selected New York-session trades, about `29.85` trades per day, `79.92%` win rate, `$117103.00` net PnL, and about `18.74%` max drawdown on the full 180-day training run.
 
 ## Research Guardrails
 
