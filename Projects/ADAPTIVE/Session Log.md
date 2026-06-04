@@ -36,3 +36,4 @@ Backlink: [[ADAPTIVE]]
 - Confirmed the configured Git remote remains only `https://github.com/davidtradespov-gif/ADAPTIVE.git`.
 - Confirmed the local Obsidian vault metadata and linked project notes are present inside this folder.
 - Re-baselined project memory, setup docs, and linked notes to `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE` as the new authoritative project path.
+- Confirmed GitHub fetch and push both work from this laptop after correcting the shell context so Git Credential Manager can locate `git.exe`.

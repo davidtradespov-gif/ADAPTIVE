@@ -19,6 +19,7 @@ Last updated: 2026-06-04 21:11 +10:00
 - Working: the GitHub repo URL is now reachable
 - Working: local GitHub authentication now uses `davidtradespov-gif`
 - Working: `main` has been pushed to `origin/main`
+- Working: this laptop is now the authoritative project baseline at `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE`
 - Working: project memory now explicitly forbids any push target other than `davidtradespov-gif/ADAPTIVE`
 - Working: local commits `5119a8c` and `9fdf6b2` capture the current project setup and Obsidian sync workflow
 - Working: the canonical MGC Gold tick dataset is stored locally inside the project folder
@@ -58,6 +59,8 @@ Last updated: 2026-06-04 21:11 +10:00
 - 2026-06-04: The current Strategy 01 build produced 273 simulated trades, exactly 3.00 trades per day, 82.42% win rate, `$7580.70` net PnL, and about 4.66% max drawdown on a 10k starting balance with dynamic sizing capped at 3 contracts.
 - 2026-06-04: The current high-frequency Strategy 01 managed-exit build produced 5,493 selected trades, about 29.85 trades per day, 79.92% win rate, `$117103.00` net PnL, and about 18.74% max drawdown on the full 180-day New York-session training run.
 - 2026-06-05: Continuity audit on this laptop confirmed the repo, local vault, dataset, scripts, reports, and project notes are present, but several files still contained stale references to the old OneDrive-based path.
+- 2026-06-05: The stale path references were removed from repo memory, setup docs, and linked Obsidian notes so this laptop path is now the active baseline.
+- 2026-06-05: `git fetch origin` and `git push origin main` both succeeded from this laptop after correcting the shell `PATH` so Git Credential Manager could locate `git.exe`.
 
 ## Immediate Next Steps
 

@@ -64,6 +64,8 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-04: The first executable Strategy 01 report was generated in `reports/strategy_01_absorption_reversal_report.md`.
 - 2026-06-04: The stable low-frequency Strategy 01 build on the last 180 available day folders produced `273` trades, exactly `3.00` trades per day, `82.42%` win rate, `$7580.70` net PnL, and about `4.66%` max drawdown on a `10,000` starting balance with dynamic sizing capped at `3` contracts.
 - 2026-06-04: The current high-frequency Strategy 01 build targeting about `30` trades per day produced `5,493` selected New York-session trades, about `29.85` trades per day, `79.92%` win rate, `$117103.00` net PnL, and about `18.74%` max drawdown on the full 180-day training run.
+- 2026-06-05: A full continuity audit on this laptop confirmed the local repo, Obsidian vault, MGC dataset, strategy scripts, and reports are present, and the project memory layer was re-baselined to `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE`.
+- 2026-06-05: GitHub fetch and push both succeeded from this laptop against `https://github.com/davidtradespov-gif/ADAPTIVE.git` after ensuring Git Credential Manager could see `git.exe` on `PATH`.
 - 2026-06-05: This laptop path `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE` is now the authoritative project baseline and old machine-specific path references should be removed from repo memory, Obsidian notes, and setup docs.
 
 ## Research Guardrails
