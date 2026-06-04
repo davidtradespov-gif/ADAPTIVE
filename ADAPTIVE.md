@@ -9,6 +9,7 @@ Project hub and spiderweb node for the `ADAPTIVE` workspace.
 - [[Projects/ADAPTIVE/Order Flow Education Context]]
 - [[Projects/ADAPTIVE/MGC Data Audit]]
 - [[Projects/ADAPTIVE/Strategy 01 - MGC Failed Auction Reversal]]
+- [[Projects/ADAPTIVE/Strategy 01 Research Brief]]
 - [[Projects/ADAPTIVE/Session Log]]
 - [[Projects/Projects Index]]
 - [[DATASETS]]
@@ -33,6 +34,8 @@ The full order-flow education handoff is stored in [[Projects/ADAPTIVE/Order Flo
 The first dataset audit findings are stored in [[Projects/ADAPTIVE/MGC Data Audit]].
 
 The first strategy direction is stored in [[Projects/ADAPTIVE/Strategy 01 - MGC Failed Auction Reversal]].
+
+The honest implementation brief for the requested absorption-reversal build is stored in [[Projects/ADAPTIVE/Strategy 01 Research Brief]].
 
 ## Next Steps
 

@@ -14,3 +14,4 @@ Backlink: [[ADAPTIVE]]
 - 2026-06-04: For the current phase, the project only needs to rely on the fact that the MGC tick data is available for backtesting.
 - 2026-06-04: The first strategy thesis will be a failed-auction reversal around swept liquidity in MGC Gold.
 - 2026-06-04: The first live-account design target is a `10,000` account, with early thinking centered on one-contract `MGC`.
+- 2026-06-04: The first implementation pass should focus on a New York session absorption-reversal variant of Strategy 01.

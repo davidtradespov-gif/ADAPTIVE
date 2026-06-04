@@ -25,6 +25,7 @@ Last updated: 2026-06-04 09:42 +10:00
 - Working: `DATASETS.md` and `RESEARCH_PRINCIPLES.md` define the Gold research baseline
 - Working: `scripts/audit_mgc_dataset.py` can generate repeatable MGC audit reports
 - Working: the first strategy research spec exists for `Strategy 01: MGC Failed Auction Reversal`
+- Working: an explicit research brief exists for the requested absorption-reversal build
 - Not started: codebase structure
 - Not started: runtime environment
 - Not started: tests, scripts, or deployment workflow
@@ -48,12 +49,13 @@ Last updated: 2026-06-04 09:42 +10:00
 - 2026-06-04: MGC package metadata confirmed 204 day folders spanning `2024-06-03` to `2026-01-07`.
 - 2026-06-04: First audit report confirmed 19,701,740 kept rows, six empty day folders, all-null `channel`, and a suspicious minimum price of `-333.0`.
 - 2026-06-04: First strategy direction chosen: failed-auction reversal around swept liquidity levels in MGC Gold.
+- 2026-06-04: Current dataset continuity does not support a true last-6-month train plus 1-year OOS workflow.
 
 ## Immediate Next Steps
 
-1. Build the first executable event detector for `Strategy 01: MGC Failed Auction Reversal`.
+1. Build the first New York-session absorption-reversal event detector on MGC.
 2. Create leakage-safe labels and a conservative backtest workflow on the stored MGC tick data.
-3. Review whether the setup is robust enough for a `10,000` account deployment path.
+3. Measure realistic trade frequency and drawdown before adding dynamic compounding logic.
 
 ## Open Questions
 
