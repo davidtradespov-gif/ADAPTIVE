@@ -24,7 +24,7 @@ This repository uses durable project memory. At the start of each session, read:
 
 - Durable instructions, decisions, bugs, fixes, and next steps must not live only in chat.
 - If Obsidian sync is part of the workflow, keep repo memory and vault notes aligned.
-- The linked Obsidian vault for this project is the repository root `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE`.
+- The linked Obsidian vault for this project is the repository root `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE`.
 - If Git push or Obsidian sync cannot be completed, record the failure clearly in repo memory and the session handoff.
 - Never push this project to any GitHub account or remote owner other than `davidtradespov-gif`.
 - Gold strategy research starts with the local MGC historical tick dataset and follows `RESEARCH_PRINCIPLES.md`.

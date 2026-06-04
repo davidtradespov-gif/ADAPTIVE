@@ -4,16 +4,16 @@ Last updated: 2026-06-04 21:11 +10:00
 
 ## System Summary
 
-`ADAPTIVE` is initialized as a workspace with project memory scaffolding at the project root, but no application code or runtime components exist yet.
+`ADAPTIVE` is an active research workspace with durable project memory, a local Obsidian vault, a local MGC dataset, executable strategy scripts, and generated audit and strategy reports.
 
 ## Current Status
 
 - Working: durable repo memory layer exists via `AGENTS.md`, `MEMORY.md`, and `PROJECT_STATE.md`
-- Working: workspace path confirmed as `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE`
+- Working: workspace path confirmed as `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE`
 - Working: old accidental nested repository has been removed
 - Working: clean Git repository exists at the project root
 - Working: `origin` is configured only as `https://github.com/davidtradespov-gif/ADAPTIVE.git`
-- Working: Obsidian vault now lives inside `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE`
+- Working: Obsidian vault now lives inside `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE`
 - Working: local Obsidian graph hub exists at `ADAPTIVE.md`
 - Working: local Obsidian vault metadata exists under `.obsidian`
 - Working: the GitHub repo URL is now reachable
@@ -30,10 +30,10 @@ Last updated: 2026-06-04 21:11 +10:00
 - Working: the current Strategy 01 build now stays within the requested 5% drawdown ceiling on the 10k training simulation while meeting the `3` trades per day target
 - Working: a separate high-frequency Strategy 01 build now exists for the `30` trades/day research target
 - Working: the current high-frequency Strategy 01 managed-exit build now fits the requested training-window target envelope on the full 180-day New York-session run
-- Not started: codebase structure
-- Not started: runtime environment
-- Not started: tests, scripts, or deployment workflow
-- In progress: Obsidian note synchronization target and hub structure
+- Working: codebase structure exists for research scripts, reports, docs, and project notes
+- Working: local runtime support exists via project-local `.python_packages`
+- Not started: automated tests and deployment workflow
+- Working: Obsidian note synchronization target and hub structure
 
 ## Latest Validated State
 
@@ -57,6 +57,7 @@ Last updated: 2026-06-04 21:11 +10:00
 - 2026-06-04: First Strategy 01 run on the last 180 available day folders produced 8,512 simulated trades and about 46.26 trades per day in New York session, but one-contract drawdown was about 22.63% of a 10k account.
 - 2026-06-04: The current Strategy 01 build produced 273 simulated trades, exactly 3.00 trades per day, 82.42% win rate, `$7580.70` net PnL, and about 4.66% max drawdown on a 10k starting balance with dynamic sizing capped at 3 contracts.
 - 2026-06-04: The current high-frequency Strategy 01 managed-exit build produced 5,493 selected trades, about 29.85 trades per day, 79.92% win rate, `$117103.00` net PnL, and about 18.74% max drawdown on the full 180-day New York-session training run.
+- 2026-06-05: Continuity audit on this laptop confirmed the repo, local vault, dataset, scripts, reports, and project notes are present, but several files still contained stale references to the old OneDrive-based path.
 
 ## Immediate Next Steps
 

@@ -1,6 +1,6 @@
 # ADAPTIVE
 
-Initial project scaffold for the `ADAPTIVE` workspace.
+Research workspace for the `ADAPTIVE` strategy project.
 
 ## Current Contents
 
@@ -11,10 +11,13 @@ Initial project scaffold for the `ADAPTIVE` workspace.
 - `RESEARCH_PRINCIPLES.md`: independent order-flow strategy build rules
 - `RUNBOOK.md`: repo, Obsidian, and Git persistence workflow
 - `scripts/audit_mgc_dataset.py`: repeatable MGC dataset audit workflow
+- `scripts/strategy_01_absorption_reversal.py`: executable Strategy 01 research runner
+- `reports/`: generated dataset audit and strategy reports
+- `Projects/ADAPTIVE/`: mirrored Obsidian project notes
 
 ## Setup Status
 
-The workspace is initialized for persistent project tracking, but application code has not been added yet.
+The workspace is active and contains persistent project memory, the local Obsidian vault, the canonical MGC dataset, executable research scripts, and generated reports.
 
 ## Local Obsidian Vault
 
@@ -26,4 +29,4 @@ Primary hub note:
 
 ## Next Step
 
-Use `scripts/audit_mgc_dataset.py` to validate the stored MGC COMEX tick dataset, then build the first independent Gold order-flow research workflow around it.
+Freeze the current Strategy 01 training build, add the first true chronological validation block, and then stress test costs before extending the same logic family to other sessions.

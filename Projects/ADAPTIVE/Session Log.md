@@ -28,3 +28,11 @@ Backlink: [[ADAPTIVE]]
 - Verified that the high-frequency build reaches about `29.85` trades per day on the full 180-day training run, but it still carries about `36.15%` max drawdown and is not yet inside the requested `20%` ceiling.
 - Reworked the high-frequency exit architecture into a managed model with hard stop, break-even promotion, trailing stop activation, runner hold/trail logic, time exit, session flatten, and opposite-pressure exits.
 - Finalized a full-window high-frequency training build at about `29.85` trades per day, about `$117103.00` net PnL, and about `18.74%` max drawdown on the `10,000` simulation.
+
+## 2026-06-05
+
+- Ran a full continuity audit on this laptop after migrating the project away from the prior OneDrive-based location.
+- Confirmed the local repo contains the expected memory files, Obsidian notes, MGC dataset, strategy scripts, and generated reports.
+- Confirmed the configured Git remote remains only `https://github.com/davidtradespov-gif/ADAPTIVE.git`.
+- Confirmed the local Obsidian vault metadata and linked project notes are present inside this folder.
+- Re-baselined project memory, setup docs, and linked notes to `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE` as the new authoritative project path.

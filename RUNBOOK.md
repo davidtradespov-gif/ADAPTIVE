@@ -24,14 +24,14 @@ Read these first in every session:
 
 Primary hub note:
 
-- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\ADAPTIVE.md`
+- `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE\ADAPTIVE.md`
 
 Supporting linked notes:
 
-- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\Projects\ADAPTIVE\Project State.md`
-- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\Projects\ADAPTIVE\Decisions.md`
-- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\Projects\ADAPTIVE\Session Log.md`
-- `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\Projects\Projects Index.md`
+- `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE\Projects\ADAPTIVE\Project State.md`
+- `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE\Projects\ADAPTIVE\Decisions.md`
+- `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE\Projects\ADAPTIVE\Session Log.md`
+- `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE\Projects\Projects Index.md`
 
 ## Minimum Session Steps
 

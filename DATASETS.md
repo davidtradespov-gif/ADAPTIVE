@@ -9,8 +9,8 @@ This is the canonical historical dataset for all Gold futures strategy research 
 - Instrument: `MGC` Micro Gold futures
 - Venue: `COMEX`
 - Dataset type: historical trade tick data
-- Local package root: `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\mgc_comex_trades_package (2)\mgc_comex_trades_package`
-- Trade data root: `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\mgc_comex_trades_package (2)\mgc_comex_trades_package\trades_s3_mgc_parquet`
+- Local package root: `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE\mgc_comex_trades_package (2)\mgc_comex_trades_package`
+- Trade data root: `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE\mgc_comex_trades_package (2)\mgc_comex_trades_package\trades_s3_mgc_parquet`
 
 ### Confirmed Package Facts
 
@@ -37,8 +37,8 @@ This is the canonical historical dataset for all Gold futures strategy research 
 
 ### Current Limitation
 
-- Full parquet schema profiling is still pending because the bundled runtime currently lacks `pyarrow` or `fastparquet`.
-- Before feature engineering, perform a full audit of columns, timestamps, duplicates, session continuity, timezone handling, and contract assumptions.
+- Full audit outputs already exist, but the suspicious minimum price of `-333.0`, empty day folders, and spread-versus-outright ticker policy still need follow-up before live-trading assumptions are trusted.
+- Before further feature engineering or live-use conclusions, keep validating columns, timestamps, session continuity, timezone handling, and contract assumptions.
 
 ### Initial Audit Findings
 

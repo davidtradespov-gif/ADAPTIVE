@@ -4,7 +4,7 @@
 
 Use the bundled Codex Python runtime with the project-local package directory:
 
-- Python: `C:\Users\david\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe`
+- Python: `C:\Users\smile\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe`
 - Local package dir: `.python_packages`
 
 `pyarrow` is installed in `.python_packages` so parquet inspection can run without relying on machine-global Python.
@@ -14,8 +14,8 @@ Use the bundled Codex Python runtime with the project-local package directory:
 Run:
 
 ```powershell
-& 'C:\Users\david\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' `
-  'C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\scripts\audit_mgc_dataset.py'
+$env:PYTHONPATH = ".python_packages"
+& 'C:\Users\smile\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' .\scripts\audit_mgc_dataset.py
 ```
 
 ## Outputs

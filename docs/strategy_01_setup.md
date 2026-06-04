@@ -19,8 +19,8 @@
 ## Runner
 
 ```powershell
-& 'C:\Users\david\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' `
-  'C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE\scripts\strategy_01_absorption_reversal.py'
+$env:PYTHONPATH = ".python_packages"
+& 'C:\Users\smile\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' .\scripts\strategy_01_absorption_reversal.py
 ```
 
 ## Outputs

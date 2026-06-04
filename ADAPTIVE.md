@@ -19,7 +19,7 @@ Project hub and spiderweb node for the `ADAPTIVE` workspace.
 
 ## Repo
 
-- Local project path: `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE`
+- Local project path: `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE`
 - Git remote target: `https://github.com/davidtradespov-gif/ADAPTIVE.git`
 - Only permitted GitHub owner: `davidtradespov-gif`
 

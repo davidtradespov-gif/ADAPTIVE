@@ -4,7 +4,7 @@ Backlink: [[ADAPTIVE]]
 
 ## Summary
 
-The project root is `C:\Users\david\OneDrive - My Biologics Pty Ltd\Trading\ADAPTIVE`. Durable repo memory and the local Obsidian vault both live inside this folder.
+The project root is `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE`. Durable repo memory and the local Obsidian vault both live inside this folder.
 
 ## Current Status
 
