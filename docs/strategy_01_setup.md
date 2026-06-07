@@ -8,11 +8,11 @@
 
 ## Current Logic
 
-- Aggregate raw MGC trades into New York session second-bars
-- Track recent intraday extremes plus the first `30` minutes opening range
-- Generate high-frequency sweep/rejection candidates using close location, signed-flow pressure, CVD-vs-price efficiency, and activity expansion
+- Aggregate raw MGC trades into session-specific second-bars across Asia, London, and New York
+- Track recent intraday extremes plus each session opening range
+- Generate high-frequency sweep/rejection candidates using close location, signed-flow pressure, CVD-vs-price efficiency, activity expansion, and session context
 - Rank the candidate pool with a local probability model trained on the same training-window outcomes
-- Select up to `30` distinct setups per day with cooldown spacing
+- Select the best cross-session opportunities globally each trade day inside a `25-50` trades/day search band
 - Simulate managed exits with a hard stop, break-even promotion, trailing stop activation, runner hold/trail logic, time exits, session flatten, and opposite-pressure exits net of commission and slippage
 - Apply dynamic contract sizing with a hard cap derived from a `20%` drawdown budget on a `10,000` starting balance
 
@@ -38,6 +38,6 @@ This is a practical working build choice on the available data, not a claim that
 
 ## Current Reality Check
 
-- The current high-frequency build gets very close to the requested `30` trades per day target on the full New York-session training run.
-- The current full training result is about `29.85` trades per day, about `$117,103.00` net PnL, and about `18.74%` max drawdown on a `10,000` starting balance.
-- The probability selector is still trained on the same 180-day candidate pool, so this is a strategy-construction result and still needs true chronological validation before any live claim.
+- The accepted V2 build uses all three sessions and a global daily selector, with the best under-ceiling training variant landing at about `39.87` trades per day, about `$160,292.10` net PnL, and about `18.22%` max drawdown on a `10,000` starting balance.
+- The `45` and `50` trades/day V2 variants made more gross training PnL but breached the drawdown ceiling and are not the accepted baseline.
+- The probability selector is still trained on the same 180-day candidate pool, so this is still a strategy-construction result and still needs true chronological validation before any live claim.

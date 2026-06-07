@@ -39,3 +39,12 @@ Backlink: [[ADAPTIVE]]
 - Confirmed GitHub fetch and push both work from this laptop after correcting the shell context so Git Credential Manager can locate `git.exe`.
 - Re-ran a continuity comparison against the canonical Strategy 01 checkpoint and confirmed the local managed-exit high-frequency script and report state already match the expected build.
 - Recorded a fresh consolidated Strategy 01 checkpoint into repo memory and the linked Obsidian notes so future sessions can resume from this laptop without chat history.
+
+## 2026-06-08
+
+- Expanded Strategy 01 into a V2 session-aware runner covering Asia, London, and New York under the same absorption-reversal logic family.
+- Switched selection from a single-session daily filter to a global cross-session daily selector so only the strongest same-day opportunities are kept inside the target trade band.
+- Ran the full 180-day three-session training sweep for targets `25`, `30`, `35`, `40`, `45`, and `50` trades/day.
+- Confirmed the accepted V2 training baseline is the `40`-target variant at about `39.87` trades/day, about `$160292.10` net PnL, and about `18.22%` max drawdown on the `10,000` simulation.
+- Confirmed the `45` and `50`-target variants produced higher training PnL but broke the drawdown ceiling, so they were rejected as the active baseline.
+- Recorded that the current annualized training run-rate is about `$224408.94`, which improves materially on V1 but still does not honestly support the stated `$1,000,000` yearly goal.

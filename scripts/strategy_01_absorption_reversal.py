@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import math
 import sys
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import UTC
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -37,15 +37,32 @@ MODEL_FEATURES = [
     "opening_range_bonus",
     "direction_code",
     "minutes_from_open",
+    "session_code",
 ]
+
+
+@dataclass(frozen=True)
+class SessionConfig:
+    key: str
+    label: str
+    code: int
+    start_hour: int
+    end_hour: int
+    opening_range_minutes: int = 30
+
+
+SESSION_LIBRARY = {
+    "asia": SessionConfig(key="asia", label="Asia", code=0, start_hour=20, end_hour=1, opening_range_minutes=45),
+    "london": SessionConfig(key="london", label="London", code=1, start_hour=2, end_hour=8, opening_range_minutes=30),
+    "new_york": SessionConfig(key="new_york", label="New York", code=2, start_hour=8, end_hour=13, opening_range_minutes=30),
+}
 
 
 @dataclass
 class StrategyConfig:
     train_last_n_days: int = 180
-    session_start_hour: int = 8
-    session_end_hour: int = 13
-    opening_range_minutes: int = 30
+    session_names: tuple[str, ...] = ("asia", "london", "new_york")
+    trade_target_candidates: tuple[int, ...] = (25, 30, 35, 40, 45, 50)
     rolling_window_trades: int = 10
     short_flow_window: int = 4
     price_window: int = 4
@@ -71,8 +88,7 @@ class StrategyConfig:
     min_rejection_close_location: float = 0.55
     max_rejection_close_location: float = 0.45
     min_probability_score: float = 0.0
-    daily_trade_target: int = 30
-    daily_trade_buffer: int = 20
+    daily_trade_buffer: int = 60
     daily_loss_limit_dollars: float = 1_000_000.0
     starting_balance: float = 10_000.0
     max_drawdown_fraction: float = 0.20
@@ -81,6 +97,10 @@ class StrategyConfig:
     target_risk_fraction_cap: float = 0.10
     commission_per_side: float = 0.85
     slippage_per_side_ticks: int = 1
+
+
+def resolved_sessions(cfg: StrategyConfig) -> list[SessionConfig]:
+    return [SESSION_LIBRARY[name] for name in cfg.session_names]
 
 
 def load_day(path: Path) -> pd.DataFrame:
@@ -95,24 +115,6 @@ def load_day(path: Path) -> pd.DataFrame:
     df["ts_ny"] = df["ts_utc"].dt.tz_convert(NEW_YORK_TZ)
     df["is_spread"] = df["ticker"].astype(str).str.contains("-", regex=False)
     return df
-
-
-def in_window(day_name: str, start: str, end: str) -> bool:
-    date_value = day_name.split("=", 1)[1]
-    return start <= date_value <= end
-
-
-def load_window(start: str, end: str) -> pd.DataFrame:
-    frames: list[pd.DataFrame] = []
-    for day in sorted(p for p in DATASET_ROOT.iterdir() if p.is_dir()):
-        if in_window(day.name, start, end):
-            df = load_day(day)
-            if not df.empty:
-                frames.append(df)
-    if not frames:
-        return pd.DataFrame()
-    result = pd.concat(frames, ignore_index=True)
-    return result.sort_values("ts_utc").reset_index(drop=True)
 
 
 def available_day_dirs() -> list[Path]:
@@ -130,11 +132,17 @@ def select_last_n_available_days(n: int) -> tuple[str, str, list[str]]:
     return selected_names[0], selected_names[-1], selected_names
 
 
-def filter_new_york_session(df: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
+def session_hour_mask(hours: pd.Series, session: SessionConfig) -> pd.Series:
+    if session.start_hour < session.end_hour:
+        return (hours >= session.start_hour) & (hours < session.end_hour)
+    return (hours >= session.start_hour) | (hours < session.end_hour)
+
+
+def filter_session(df: pd.DataFrame, session: SessionConfig) -> pd.DataFrame:
     if df.empty:
         return df
     hours = df["ts_ny"].dt.hour
-    result = df[(hours >= cfg.session_start_hour) & (hours < cfg.session_end_hour)].copy()
+    result = df[session_hour_mask(hours, session)].copy()
     result = result[~result["is_spread"]].copy()
     return result
 
@@ -164,12 +172,12 @@ def aggregate_session(df: pd.DataFrame) -> pd.DataFrame:
     return grouped
 
 
-def build_features(df: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
+def build_features(df: pd.DataFrame, cfg: StrategyConfig, session: SessionConfig) -> pd.DataFrame:
     if df.empty:
         return df
     result = df.copy()
     session_start = result["ts_ny"].iloc[0]
-    opening_range_end = session_start + pd.Timedelta(minutes=cfg.opening_range_minutes)
+    opening_range_end = session_start + pd.Timedelta(minutes=session.opening_range_minutes)
     rolling_min_periods = max(3, min(20, cfg.rolling_window_trades))
     result["price_change"] = result["price"].diff()
     result["price_range"] = result["high"] - result["low"]
@@ -210,10 +218,12 @@ def build_features(df: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
         result["price_range"].replace(0, pd.NA)
     ).fillna(0.5)
     result["minutes_from_open"] = (result["ts_ny"] - session_start).dt.total_seconds() / 60.0
+    result["session_code"] = session.code
+    result["session_name"] = session.label
     return result
 
 
-def find_events(df: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
+def find_events(df: pd.DataFrame, cfg: StrategyConfig, session: SessionConfig, trade_date: str) -> pd.DataFrame:
     if df.empty:
         return pd.DataFrame()
     candidates = []
@@ -240,17 +250,15 @@ def find_events(df: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
         cvd_delta_short = float(row["cvd_delta_short"])
         price_delta_short = float(row["price_delta_short"])
         pressure_efficiency = float(row["pressure_efficiency"])
-        min_sweep = cfg.min_sweep_ticks
-        reclaim = cfg.reclaim_ticks
         short_anchor = prior_high
         long_anchor = prior_low
-        short_sweep = high >= short_anchor + min_sweep
-        long_sweep = low <= long_anchor - min_sweep
+        short_sweep = high >= short_anchor + cfg.min_sweep_ticks
+        long_sweep = low <= long_anchor - cfg.min_sweep_ticks
         short_pressure_ok = cvd_delta_short > 0 and pressure_efficiency <= 0.55
         long_pressure_ok = cvd_delta_short < 0 and pressure_efficiency <= 0.55
         if (
             short_sweep
-            and price <= short_anchor - reclaim
+            and price <= short_anchor - cfg.reclaim_ticks
             and short_pressure_ok
             and close_location <= cfg.max_rejection_close_location
         ):
@@ -259,7 +267,7 @@ def find_events(df: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
             sweep_price = high
         elif (
             long_sweep
-            and price >= long_anchor + reclaim
+            and price >= long_anchor + cfg.reclaim_ticks
             and long_pressure_ok
             and close_location >= cfg.min_rejection_close_location
         ):
@@ -277,7 +285,6 @@ def find_events(df: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
             sweep_distance = max(0.0, anchor - sweep_price)
             opposite_pressure = max(0.0, -price_delta_short)
         opening_range_bonus = 1.0 if (direction == "short" and sweep_price >= opening_high) or (direction == "long" and sweep_price <= opening_low) else 0.0
-        entry_price = price
         score = (
             min(2.5, float(row["size_zscore"])) * 0.20 +
             min(3.0, abs(cvd_delta_short) / 80.0) * 0.20 +
@@ -291,15 +298,18 @@ def find_events(df: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
         if probability_score < cfg.min_probability_score:
             continue
         candidates.append({
+            "trade_date": trade_date,
             "event_ts_utc": row["ts_utc"].isoformat(),
             "event_ts_ny": row["ts_ny"].isoformat(),
-            "event_date": row["ts_ny"].date().isoformat(),
+            "event_calendar_date": row["ts_ny"].date().isoformat(),
+            "session_name": session.label,
+            "session_code": session.code,
             "direction": direction,
             "ticker": row["ticker"],
             "anchor_price": anchor,
             "event_price": price,
             "sweep_price": sweep_price,
-            "entry_price": entry_price,
+            "entry_price": price,
             "size": int(row["volume"]),
             "size_zscore": float(row["size_zscore"]),
             "rolling_signed_flow": float(row["rolling_signed_flow"]),
@@ -318,56 +328,6 @@ def find_events(df: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
     return pd.DataFrame(candidates)
 
 
-def fit_probability_model(events: pd.DataFrame, trades: pd.DataFrame) -> pd.DataFrame:
-    if events.empty or trades.empty:
-        return events
-    labels = trades[["event_ts_utc", "direction", "ticker", "pnl_dollars_1_contract", "exit_reason"]].copy()
-    labels["target_hit"] = labels["pnl_dollars_1_contract"].gt(2.0).astype(int)
-    merged = events.merge(labels, on=["event_ts_utc", "direction", "ticker"], how="left")
-    merged["target_hit"] = merged["target_hit"].fillna(0).astype(int)
-    if merged["target_hit"].nunique() < 2:
-        return merged
-    x = merged[MODEL_FEATURES].fillna(0.0)
-    y = merged["target_hit"]
-    model = Pipeline(
-        steps=[
-            ("scaler", StandardScaler()),
-            ("classifier", LogisticRegression(max_iter=1000)),
-        ]
-    )
-    model.fit(x, y)
-    merged["probability_score"] = model.predict_proba(x)[:, 1]
-    return merged
-
-
-def select_top_candidates(events: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
-    if events.empty:
-        return events
-    selected_frames: list[pd.DataFrame] = []
-    for _, day_events in events.groupby("event_date"):
-        ranked = day_events.sort_values(
-            by=["probability_score", "rejection_strength", "size_zscore"],
-            ascending=[False, False, False],
-        ).reset_index(drop=True)
-        kept = []
-        kept_ts: list[pd.Timestamp] = []
-        for _, row in ranked.iterrows():
-            event_ts = pd.Timestamp(row["event_ts_utc"])
-            too_close = any(abs((event_ts - prior_ts).total_seconds()) < cfg.cooldown_seconds for prior_ts in kept_ts)
-            if too_close:
-                continue
-            kept.append(row.to_dict())
-            kept_ts.append(event_ts)
-            if len(kept) >= cfg.daily_trade_target + cfg.daily_trade_buffer:
-                break
-        if kept:
-            kept_df = pd.DataFrame(kept).sort_values("event_ts_utc").reset_index(drop=True)
-            selected_frames.append(kept_df.head(cfg.daily_trade_target))
-    if not selected_frames:
-        return pd.DataFrame()
-    return pd.concat(selected_frames, ignore_index=True)
-
-
 def simulate_trades(events: pd.DataFrame, full_df: pd.DataFrame, cfg: StrategyConfig) -> pd.DataFrame:
     if events.empty:
         return pd.DataFrame()
@@ -375,16 +335,19 @@ def simulate_trades(events: pd.DataFrame, full_df: pd.DataFrame, cfg: StrategyCo
     tick_value = 1.0
     round_trip_cost = 2 * cfg.commission_per_side + 2 * cfg.slippage_per_side_ticks * tick_value
     full_df = full_df.sort_values("ts_utc").reset_index(drop=True)
+    session_end_ts = full_df["ts_utc"].iloc[-1]
     for _, event in events.iterrows():
         entry_ts = pd.Timestamp(event["event_ts_utc"])
         entry_price = float(event["entry_price"])
         direction = event["direction"]
         runner_candidate = float(event.get("probability_score", 0.0)) >= cfg.runner_min_score
         max_hold_seconds = cfg.runner_max_hold_seconds if runner_candidate else cfg.normal_max_hold_seconds
-        future = full_df[(full_df["ts_utc"] > entry_ts) & (full_df["ts_utc"] <= entry_ts + pd.Timedelta(seconds=max_hold_seconds))]
+        max_exit_ts = min(session_end_ts, entry_ts + pd.Timedelta(seconds=max_hold_seconds))
+        future = full_df[(full_df["ts_utc"] > entry_ts) & (full_df["ts_utc"] <= max_exit_ts)]
         if future.empty:
             continue
-        exit_reason = "time"
+        reached_session_end = max_exit_ts == session_end_ts
+        exit_reason = "session_flat" if reached_session_end else "time"
         exit_price = float(future.iloc[-1]["price"])
         best_price = entry_price
         stop_price = entry_price - cfg.hard_stop_ticks if direction == "long" else entry_price + cfg.hard_stop_ticks
@@ -393,11 +356,6 @@ def simulate_trades(events: pd.DataFrame, full_df: pd.DataFrame, cfg: StrategyCo
         for _, row in future.iterrows():
             price = float(row["price"])
             signed_flow = float(row["signed_flow"])
-            row_ts_ny = row["ts_ny"]
-            if row_ts_ny.hour >= cfg.session_end_hour:
-                exit_price = price
-                exit_reason = "session_flat"
-                break
             if direction == "long":
                 best_price = max(best_price, price)
                 favorable_ticks = best_price - entry_price
@@ -441,9 +399,12 @@ def simulate_trades(events: pd.DataFrame, full_df: pd.DataFrame, cfg: StrategyCo
         pnl_ticks = (exit_price - entry_price) if direction == "long" else (entry_price - exit_price)
         pnl_dollars = pnl_ticks * tick_value - round_trip_cost
         trades.append({
+            "trade_date": event["trade_date"],
             "event_ts_utc": event["event_ts_utc"],
             "direction": direction,
             "ticker": event["ticker"],
+            "session_name": event["session_name"],
+            "session_code": event["session_code"],
             "entry_price": entry_price,
             "exit_price": exit_price,
             "exit_reason": exit_reason,
@@ -453,25 +414,55 @@ def simulate_trades(events: pd.DataFrame, full_df: pd.DataFrame, cfg: StrategyCo
     return pd.DataFrame(trades)
 
 
-def evaluate_selected_days(selected_days: list[str], cfg: StrategyConfig) -> dict:
+def fit_probability_model(events: pd.DataFrame, trades: pd.DataFrame) -> pd.DataFrame:
+    if events.empty or trades.empty:
+        return events
+    labels = trades[["event_ts_utc", "direction", "ticker", "session_name", "pnl_dollars_1_contract"]].copy()
+    labels["target_hit"] = labels["pnl_dollars_1_contract"].gt(2.0).astype(int)
+    merged = events.merge(labels, on=["event_ts_utc", "direction", "ticker", "session_name"], how="left")
+    merged["target_hit"] = merged["target_hit"].fillna(0).astype(int)
+    if merged["target_hit"].nunique() < 2:
+        return merged
+    x = merged[MODEL_FEATURES].fillna(0.0)
+    y = merged["target_hit"]
+    model = Pipeline(
+        steps=[
+            ("scaler", StandardScaler()),
+            ("classifier", LogisticRegression(max_iter=1000)),
+        ]
+    )
+    model.fit(x, y)
+    merged["probability_score"] = model.predict_proba(x)[:, 1]
+    return merged
+
+
+def build_candidate_pool(selected_days: list[str], cfg: StrategyConfig) -> dict:
     total_raw_rows = 0
     total_session_rows = 0
     event_frames: list[pd.DataFrame] = []
     trade_frames: list[pd.DataFrame] = []
+    session_row_counts = {session.label: 0 for session in resolved_sessions(cfg)}
+    session_event_counts = {session.label: 0 for session in resolved_sessions(cfg)}
     for day_name in selected_days:
         day_path = DATASET_ROOT / f"date={day_name}"
         raw = load_day(day_path)
         if raw.empty:
             continue
         total_raw_rows += len(raw)
-        session = filter_new_york_session(raw, cfg)
-        if session.empty:
-            continue
-        aggregated = aggregate_session(session)
-        total_session_rows += len(aggregated)
-        features = build_features(aggregated, cfg)
-        events = find_events(features, cfg)
-        if not events.empty:
+        for session in resolved_sessions(cfg):
+            session_df = filter_session(raw, session)
+            if session_df.empty:
+                continue
+            aggregated = aggregate_session(session_df)
+            if aggregated.empty:
+                continue
+            total_session_rows += len(aggregated)
+            session_row_counts[session.label] += len(aggregated)
+            features = build_features(aggregated, cfg, session)
+            events = find_events(features, cfg, session, trade_date=day_name)
+            if events.empty:
+                continue
+            session_event_counts[session.label] += len(events)
             trades = simulate_trades(events, aggregated, cfg)
             event_frames.append(events)
             if not trades.empty:
@@ -479,16 +470,6 @@ def evaluate_selected_days(selected_days: list[str], cfg: StrategyConfig) -> dic
     all_events = pd.concat(event_frames, ignore_index=True) if event_frames else pd.DataFrame()
     all_trades = pd.concat(trade_frames, ignore_index=True) if trade_frames else pd.DataFrame()
     scored_events = fit_probability_model(all_events, all_trades)
-    selected_events = select_top_candidates(scored_events, cfg)
-    if selected_events.empty:
-        selected_trades = pd.DataFrame()
-    else:
-        selected_trades = all_trades.merge(
-            selected_events[["event_ts_utc", "direction", "ticker"]],
-            on=["event_ts_utc", "direction", "ticker"],
-            how="inner",
-        )
-    sized = apply_dynamic_sizing(selected_trades, cfg)
     return {
         "start": selected_days[0] if selected_days else None,
         "end": selected_days[-1] if selected_days else None,
@@ -496,14 +477,44 @@ def evaluate_selected_days(selected_days: list[str], cfg: StrategyConfig) -> dic
         "selected_day_count": len(selected_days),
         "raw_rows": int(total_raw_rows),
         "session_rows": int(total_session_rows),
-        "events": int(len(selected_events)),
+        "session_row_counts": session_row_counts,
+        "session_event_counts": session_event_counts,
+        "all_events": all_events,
+        "all_trades": all_trades,
+        "scored_events": scored_events,
         "candidate_pool": int(len(all_events)),
-        "trades": int(len(selected_trades)),
-        "summary": sized,
     }
 
 
-def apply_dynamic_sizing(trades: pd.DataFrame, cfg: StrategyConfig) -> dict:
+def select_top_candidates(events: pd.DataFrame, cfg: StrategyConfig, daily_trade_target: int) -> pd.DataFrame:
+    if events.empty:
+        return events
+    selected_frames: list[pd.DataFrame] = []
+    for _, day_events in events.groupby("trade_date"):
+        ranked = day_events.sort_values(
+            by=["probability_score", "rejection_strength", "size_zscore"],
+            ascending=[False, False, False],
+        ).reset_index(drop=True)
+        kept = []
+        kept_ts: list[pd.Timestamp] = []
+        for _, row in ranked.iterrows():
+            event_ts = pd.Timestamp(row["event_ts_utc"])
+            too_close = any(abs((event_ts - prior_ts).total_seconds()) < cfg.cooldown_seconds for prior_ts in kept_ts)
+            if too_close:
+                continue
+            kept.append(row.to_dict())
+            kept_ts.append(event_ts)
+            if len(kept) >= daily_trade_target + cfg.daily_trade_buffer:
+                break
+        if kept:
+            kept_df = pd.DataFrame(kept).sort_values("event_ts_utc").reset_index(drop=True)
+            selected_frames.append(kept_df.head(daily_trade_target))
+    if not selected_frames:
+        return pd.DataFrame()
+    return pd.concat(selected_frames, ignore_index=True)
+
+
+def apply_dynamic_sizing(trades: pd.DataFrame, cfg: StrategyConfig, daily_trade_target: int, selected_day_count: int) -> dict:
     if trades.empty:
         return {
             "trades": 0,
@@ -516,7 +527,8 @@ def apply_dynamic_sizing(trades: pd.DataFrame, cfg: StrategyConfig) -> dict:
             "win_rate": 0.0,
             "avg_trade_pnl": 0.0,
             "baseline_max_drawdown_1_contract": 0.0,
-            "selected_trade_target": cfg.daily_trade_target,
+            "selected_trade_target": daily_trade_target,
+            "annualized_run_rate": 0.0,
         }
     baseline_equity = cfg.starting_balance
     baseline_peak = baseline_equity
@@ -531,13 +543,13 @@ def apply_dynamic_sizing(trades: pd.DataFrame, cfg: StrategyConfig) -> dict:
     balance = cfg.starting_balance
     equity_peak = balance
     max_dd = 0.0
-    trade_dates = {}
+    trade_dates: dict[str, int] = {}
     realized = []
     current_day = None
     daily_realized_pnl = 0.0
     day_locked = False
-    for _, row in trades.iterrows():
-        trade_date = row["event_ts_utc"][:10]
+    for _, row in trades.sort_values("event_ts_utc").iterrows():
+        trade_date = row["trade_date"]
         if current_day != trade_date:
             current_day = trade_date
             daily_realized_pnl = 0.0
@@ -564,68 +576,143 @@ def apply_dynamic_sizing(trades: pd.DataFrame, cfg: StrategyConfig) -> dict:
             day_locked = True
     avg_trades_per_day = sum(trade_dates.values()) / max(1, len(trade_dates))
     pnl_values = [trade["pnl_dollars"] for trade in realized]
+    net_pnl = balance - cfg.starting_balance
+    annualized_run_rate = net_pnl * 252 / max(1, selected_day_count)
     return {
         "trades": len(realized),
         "ending_balance": balance,
         "max_drawdown_dollars": max_dd,
         "max_drawdown_fraction": max_dd / cfg.starting_balance,
         "avg_trades_per_day": avg_trades_per_day,
-        "net_pnl": balance - cfg.starting_balance,
+        "net_pnl": net_pnl,
         "baseline_max_drawdown_1_contract": baseline_max_dd,
         "contracts_cap": contracts_cap,
         "win_rate": (sum(1 for value in pnl_values if value > 0) / len(pnl_values)) if pnl_values else 0.0,
         "avg_trade_pnl": (sum(pnl_values) / len(pnl_values)) if pnl_values else 0.0,
-        "selected_trade_target": cfg.daily_trade_target,
+        "selected_trade_target": daily_trade_target,
+        "annualized_run_rate": annualized_run_rate,
         "trade_details": realized[:25],
     }
 
 
+def session_counts(df: pd.DataFrame, column: str) -> dict[str, int]:
+    if df.empty or column not in df.columns:
+        return {}
+    grouped = df[column].value_counts().sort_index()
+    return {str(name): int(value) for name, value in grouped.items()}
+
+
+def evaluate_variant(pool: dict, cfg: StrategyConfig, daily_trade_target: int) -> dict:
+    selected_events = select_top_candidates(pool["scored_events"], cfg, daily_trade_target)
+    if selected_events.empty:
+        selected_trades = pd.DataFrame()
+    else:
+        selected_trades = pool["all_trades"].merge(
+            selected_events[["event_ts_utc", "direction", "ticker", "session_name"]],
+            on=["event_ts_utc", "direction", "ticker", "session_name"],
+            how="inner",
+        ).sort_values("event_ts_utc").reset_index(drop=True)
+    summary = apply_dynamic_sizing(selected_trades, cfg, daily_trade_target, pool["selected_day_count"])
+    return {
+        "trade_target": daily_trade_target,
+        "events": int(len(selected_events)),
+        "trades": int(len(selected_trades)),
+        "selected_session_counts": session_counts(selected_events, "session_name"),
+        "selected_trades_by_session": session_counts(selected_trades, "session_name"),
+        "summary": summary,
+    }
+
+
+def variant_sort_key(variant: dict, cfg: StrategyConfig) -> tuple[int, int, float, float, float]:
+    summary = variant["summary"]
+    in_trade_band = 1 if 25.0 <= summary["avg_trades_per_day"] <= 50.0 else 0
+    within_drawdown = 1 if summary["max_drawdown_fraction"] <= cfg.max_drawdown_fraction else 0
+    return (
+        within_drawdown,
+        in_trade_band,
+        summary["net_pnl"],
+        -summary["max_drawdown_fraction"],
+        summary["avg_trades_per_day"],
+    )
+
+
+def build_search_results(pool: dict, cfg: StrategyConfig) -> tuple[list[dict], dict]:
+    variants = [evaluate_variant(pool, cfg, target) for target in cfg.trade_target_candidates]
+    ranked = sorted(variants, key=lambda variant: variant_sort_key(variant, cfg), reverse=True)
+    return ranked, ranked[0]
+
+
 def write_markdown(report: dict) -> str:
+    sessions = ", ".join(session["label"] for session in report["sessions"])
+    best = report["best_variant"]
+    summary = best["summary"]
     lines = [
         "# Strategy 01 Absorption Reversal Report",
         "",
         "## Scope",
         "",
         "- Instrument: `MGC`",
-        "- Session: New York only",
+        f"- Sessions: `{sessions}`",
         "- Setup family: absorption reversal / failed continuation",
         "- Account context: `10,000` sim",
-        "- Strategy target: about `30` trades per day with max `20%` drawdown",
+        "- Strategy target band: `25` to `50` trades per day with max `20%` drawdown",
         "",
         "## Important Honesty Note",
         "",
         "This report uses the segmented MGC dataset currently available in the repository. It is not a claim of a continuous recent six-month train plus one-year OOS sample.",
+        "The probability selector is still fit on the same candidate pool used to rank opportunities in this run, so this remains a strategy-construction result rather than a true validation result.",
+        "",
+        "## V2 Search Outcome",
+        "",
+        f"- Selected trade target: `{best['trade_target']}` per day",
+        f"- Average realized trades per day: `{summary['avg_trades_per_day']:.2f}`",
+        f"- Net PnL: `${summary['net_pnl']:.2f}`",
+        f"- Max drawdown fraction: `{summary['max_drawdown_fraction']:.4f}`",
+        f"- Annualized run-rate from this training window: `${summary['annualized_run_rate']:.2f}`",
+        "",
+        "## Candidate Search Grid",
         "",
     ]
-    train = report["train"]
-    summary = train["summary"]
+    for variant in report["search_results"]:
+        variant_summary = variant["summary"]
+        lines.append(
+            f"- Target `{variant['trade_target']}`: trades/day `{variant_summary['avg_trades_per_day']:.2f}`, "
+            f"net `${variant_summary['net_pnl']:.2f}`, drawdown `{variant_summary['max_drawdown_fraction']:.4f}`, "
+            f"annualized `${variant_summary['annualized_run_rate']:.2f}`"
+        )
     lines.extend([
+        "",
         "## Train Window",
         "",
-        f"- Date range: `{train['start']}` -> `{train['end']}`",
-        f"- Selected available day folders: `{train['selected_day_count']}`",
-        f"- Raw rows: `{train['raw_rows']}`",
-        f"- New York session rows: `{train['session_rows']}`",
-        f"- Event candidates: `{train['events']}`",
-        f"- Raw candidate pool: `{train['candidate_pool']}`",
-        f"- Simulated trades: `{train['trades']}`",
-        f"- Average trades per day: `{summary['avg_trades_per_day']:.2f}`",
-        f"- Daily trade target: `{summary['selected_trade_target']}`",
+        f"- Date range: `{report['pool']['start']}` -> `{report['pool']['end']}`",
+        f"- Selected available day folders: `{report['pool']['selected_day_count']}`",
+        f"- Raw rows: `{report['pool']['raw_rows']}`",
+        f"- Aggregated session rows across all modeled sessions: `{report['pool']['session_rows']}`",
+        f"- Raw candidate pool: `{report['pool']['candidate_pool']}`",
+        f"- Selected event candidates: `{best['events']}`",
+        f"- Simulated trades: `{best['trades']}`",
         f"- Win rate: `{summary['win_rate']:.4f}`",
         f"- Average trade PnL: `${summary['avg_trade_pnl']:.2f}`",
         f"- Baseline max drawdown at 1 contract: `${summary['baseline_max_drawdown_1_contract']:.2f}`",
         f"- Dynamic contracts cap from {report['config']['max_drawdown_fraction']:.0%} drawdown budget: `{summary['contracts_cap']}`",
-        f"- Net PnL: `${summary['net_pnl']:.2f}`",
         f"- Ending balance: `${summary['ending_balance']:.2f}`",
         f"- Max drawdown dollars: `${summary['max_drawdown_dollars']:.2f}`",
-        f"- Max drawdown fraction: `{summary['max_drawdown_fraction']:.4f}`",
+        "",
+        "## Session Mix",
+        "",
+    ])
+    for session_label, count in sorted(best["selected_session_counts"].items()):
+        lines.append(f"- Selected events from `{session_label}`: `{count}`")
+    for session_label, count in sorted(best["selected_trades_by_session"].items()):
+        lines.append(f"- Realized trades from `{session_label}`: `{count}`")
+    lines.extend([
         "",
         "## Notes",
         "",
-        "- This run trains on the last 180 available trading-day folders with parquet data, even though the underlying history is segmented.",
-        "- Candidate generation uses sweep, CVD divergence, absorption proxy, rejection strength, pressure efficiency, activity burst, RTH timing, score-based ranking, and cooldown spacing.",
-        "- The probability selector is fit on the same 180-day training candidate pool for this build. It is a strategy-construction result, not a final validation result.",
-        "- No separate OOS block is claimed in this run because the current instruction is to build the strategy from the provided data.",
+        "- V2 keeps the same strategy family and extends it across Asia, London, and New York rather than inventing a new unrelated setup.",
+        "- Daily selection is now global across all modeled sessions, which narrows the focus to the strongest same-day opportunities instead of forcing equal participation from each session.",
+        "- The annualized figure above is only a training-window run-rate projection from segmented history, not a validated yearly claim.",
+        "- The next honest step is to freeze this V2 configuration and test it on a later chronological validation block before making any live-quality performance claim.",
         "",
     ])
     return "\n".join(lines) + "\n"
@@ -634,11 +721,42 @@ def write_markdown(report: dict) -> str:
 def main() -> None:
     cfg = StrategyConfig()
     REPORTS_DIR.mkdir(exist_ok=True)
-    train_start, train_end, selected_days = select_last_n_available_days(cfg.train_last_n_days)
+    _, _, selected_days = select_last_n_available_days(cfg.train_last_n_days)
+    pool = build_candidate_pool(selected_days, cfg)
+    search_results, best_variant = build_search_results(pool, cfg)
     report = {
         "generated_at_utc": pd.Timestamp.now(tz=UTC).isoformat(),
-        "config": cfg.__dict__,
-        "train": evaluate_selected_days(selected_days, cfg),
+        "config": asdict(cfg),
+        "sessions": [asdict(session) for session in resolved_sessions(cfg)],
+        "pool": {
+            "start": pool["start"],
+            "end": pool["end"],
+            "selected_day_count": pool["selected_day_count"],
+            "raw_rows": pool["raw_rows"],
+            "session_rows": pool["session_rows"],
+            "candidate_pool": pool["candidate_pool"],
+            "session_row_counts": pool["session_row_counts"],
+            "session_event_counts": pool["session_event_counts"],
+        },
+        "search_results": [
+            {
+                "trade_target": variant["trade_target"],
+                "events": variant["events"],
+                "trades": variant["trades"],
+                "selected_session_counts": variant["selected_session_counts"],
+                "selected_trades_by_session": variant["selected_trades_by_session"],
+                "summary": variant["summary"],
+            }
+            for variant in search_results
+        ],
+        "best_variant": {
+            "trade_target": best_variant["trade_target"],
+            "events": best_variant["events"],
+            "trades": best_variant["trades"],
+            "selected_session_counts": best_variant["selected_session_counts"],
+            "selected_trades_by_session": best_variant["selected_trades_by_session"],
+            "summary": best_variant["summary"],
+        },
     }
     JSON_REPORT.write_text(json.dumps(report, indent=2))
     MARKDOWN_REPORT.write_text(write_markdown(report))

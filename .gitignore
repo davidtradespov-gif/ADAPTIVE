@@ -1,4 +1,6 @@
 mgc_comex_trades_package (2)/
 mgc_comex_trades_package (2).zip
 .python_packages/
-reports/
+reports/*
+!reports/strategy_01_absorption_reversal_report.md
+!reports/strategy_01_absorption_reversal_report.json

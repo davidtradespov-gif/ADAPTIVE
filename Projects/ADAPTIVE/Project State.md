@@ -26,7 +26,9 @@ The project root is `C:\Users\smile\Documents\ADAPTIVE LOCAL BASED\ADAPTIVE`. Du
 - A separate high-frequency Strategy 01 research variant now exists for the near-`30` trades/day objective
 - The current high-frequency managed-exit build now fits the requested training-window target envelope on the full New York-session run
 - The current local script and report match the canonical managed-exit high-frequency Strategy 01 checkpoint from commit `3fef09a`
-- The next exact build step is to freeze this training build and add the first true chronological validation block
+- Strategy 01 V2 now extends the same logic family across Asia, London, and New York with global daily selection
+- The accepted V2 training variant is the `40` trades/day target with about `$160292.10` net PnL and about `18.22%` max drawdown on the `10,000` simulation
+- The next exact build step is to freeze this V2 training build and add the first true chronological validation block
 
 ## Immediate Next Steps
 

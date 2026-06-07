@@ -33,7 +33,7 @@ The full order-flow education handoff is stored in [[Projects/ADAPTIVE/Order Flo
 
 The first dataset audit findings are stored in [[Projects/ADAPTIVE/MGC Data Audit]].
 
-The first strategy direction and its current managed-exit high-frequency checkpoint are stored in [[Projects/ADAPTIVE/Strategy 01 - MGC Failed Auction Reversal]].
+The first strategy direction and its current managed-exit V2 checkpoint are stored in [[Projects/ADAPTIVE/Strategy 01 - MGC Failed Auction Reversal]].
 
 The honest implementation brief for the requested absorption-reversal build is stored in [[Projects/ADAPTIVE/Strategy 01 Research Brief]].
 
@@ -41,4 +41,4 @@ The honest implementation brief for the requested absorption-reversal build is s
 
 - Keep this note linked from every meaningful ADAPTIVE project note.
 - Mirror important changes from the repo into the linked notes below.
-- Freeze the current Strategy 01 training build and add the first true chronological validation block before any redesign.
+- Freeze the accepted Strategy 01 V2 `40`-target training build and add the first true chronological validation block before any further redesign.

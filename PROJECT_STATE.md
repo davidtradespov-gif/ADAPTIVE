@@ -1,6 +1,6 @@
 # Project State
 
-Last updated: 2026-06-05 11:05 +10:00
+Last updated: 2026-06-08 11:40 +10:00
 
 ## System Summary
 
@@ -31,6 +31,7 @@ Last updated: 2026-06-05 11:05 +10:00
 - Working: the current Strategy 01 build now stays within the requested 5% drawdown ceiling on the 10k training simulation while meeting the `3` trades per day target
 - Working: a separate high-frequency Strategy 01 build now exists for the `30` trades/day research target
 - Working: the current high-frequency Strategy 01 managed-exit build now fits the requested training-window target envelope on the full 180-day New York-session run
+- Working: Strategy 01 V2 now extends the same logic family across Asia, London, and New York with global daily selection
 - Working: codebase structure exists for research scripts, reports, docs, and project notes
 - Working: local runtime support exists via project-local `.python_packages`
 - Not started: automated tests and deployment workflow
@@ -62,21 +63,24 @@ Last updated: 2026-06-05 11:05 +10:00
 - 2026-06-05: The stale path references were removed from repo memory, setup docs, and linked Obsidian notes so this laptop path is now the active baseline.
 - 2026-06-05: `git fetch origin` and `git push origin main` both succeeded from this laptop after correcting the shell `PATH` so Git Credential Manager could locate `git.exe`.
 - 2026-06-05: A full continuity audit confirmed that the current local script and report already match the canonical managed-exit high-frequency Strategy 01 checkpoint from commit `3fef09a`, aside from later laptop-baseline documentation updates.
+- 2026-06-08: A full three-session V2 training run on the last 180 available day folders found the best under-ceiling variant at `40` trades/day, with about `$160292.10` net PnL and about `18.22%` max drawdown on the `10,000` simulation.
+- 2026-06-08: Higher V2 trade-target variants at `45` and `50` trades/day improved gross training PnL but failed the drawdown constraint, so they are not the active accepted baseline.
 
 ## Immediate Next Steps
 
-1. Freeze this high-frequency Strategy 01 training build and define the first true chronological validation block.
-2. Stress-test the managed-exit version under worse slippage and commission assumptions.
-3. Then extend the same logic family into London and Asia session research.
+1. Freeze the accepted V2 `40`-target three-session training build and define the first true chronological validation block.
+2. Stress-test that frozen V2 build under worse slippage and commission assumptions.
+3. Only then decide whether session timings, per-session weighting, or further build expansion are justified.
 
 ## Active Strategy Checkpoint
 
-- Strategy: `Strategy 01: MGC New York-session absorption reversal`
+- Strategy: `Strategy 01 V2: MGC absorption reversal across Asia, London, and New York`
 - Dataset scope: last `180` available MGC parquet day folders from the local segmented canonical dataset
-- Current build type: high-frequency managed-exit training build
-- Selection state: same-window probability-ranked candidate selection, not chronological validation
-- Current result: `5,493` trades, about `29.85` trades/day, `79.92%` win rate, about `$117103.00` net PnL, about `18.74%` max drawdown on a `10,000` sim
+- Current build type: high-frequency managed-exit cross-session training build
+- Selection state: same-window probability-ranked global cross-session daily selection, not chronological validation
+- Accepted result: `7,137` trades, about `39.87` trades/day, `81.42%` win rate, about `$160292.10` net PnL, about `18.22%` max drawdown on a `10,000` sim
 - Active limitation: the probability selector is still fit on the same candidate pool, so no true validation or OOS claim is valid yet
+- Goal gap: the current annualized training run-rate is about `$224408.94`, so the stated `$1,000,000` yearly goal is still aspirational rather than supported by validated evidence
 
 ## Open Questions
 
