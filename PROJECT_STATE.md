@@ -2,6 +2,8 @@
 
 Last updated: 2026-06-08 11:40 +10:00
 
+Related: [[ADAPTIVE]] | [[MEMORY]] | [[README]] | [[RUNBOOK]]
+
 ## System Summary
 
 `ADAPTIVE` is an active research workspace with durable project memory, a local Obsidian vault, a local MGC dataset, executable strategy scripts, and generated audit and strategy reports.
@@ -65,12 +67,14 @@ Last updated: 2026-06-08 11:40 +10:00
 - 2026-06-05: A full continuity audit confirmed that the current local script and report already match the canonical managed-exit high-frequency Strategy 01 checkpoint from commit `3fef09a`, aside from later laptop-baseline documentation updates.
 - 2026-06-08: A full three-session V2 training run on the last 180 available day folders found the best under-ceiling variant at `40` trades/day, with about `$160292.10` net PnL and about `18.22%` max drawdown on the `10,000` simulation.
 - 2026-06-08: Higher V2 trade-target variants at `45` and `50` trades/day improved gross training PnL but failed the drawdown constraint, so they are not the active accepted baseline.
+- 2026-06-08: A later MGC contract-unit audit found the backtester was incorrectly mixing raw price deltas and tick counts, so earlier Strategy 01 V2 reports generated before the fix are not trustworthy baseline evidence.
+- 2026-06-08: After correcting MGC math and rerunning the accepted 180-day `40`-target V2 baseline with `base_runner_9`, the current corrected result is `7,137` trades, about `39.87` trades/day, `36.77%` win rate, about `$2902680.60` net PnL, and about `19.28%` max drawdown on the `10,000` simulation.
 
 ## Immediate Next Steps
 
-1. Freeze the accepted V2 `40`-target three-session training build and define the first true chronological validation block.
-2. Stress-test that frozen V2 build under worse slippage and commission assumptions.
-3. Only then decide whether session timings, per-session weighting, or further build expansion are justified.
+1. Freeze the corrected V2 `40`-target three-session training build and define the first true chronological validation block.
+2. Audit why the corrected same-window rerun now produces `0` runner-qualified trades under the current probability threshold.
+3. Stress-test the corrected frozen build under worse slippage and commission assumptions before any live-quality claim.
 
 ## Active Strategy Checkpoint
 
@@ -78,9 +82,10 @@ Last updated: 2026-06-08 11:40 +10:00
 - Dataset scope: last `180` available MGC parquet day folders from the local segmented canonical dataset
 - Current build type: high-frequency managed-exit cross-session training build
 - Selection state: same-window probability-ranked global cross-session daily selection, not chronological validation
-- Accepted result: `7,137` trades, about `39.87` trades/day, `81.42%` win rate, about `$160292.10` net PnL, about `18.22%` max drawdown on a `10,000` sim
+- Accepted corrected rerun: `7,137` trades, about `39.87` trades/day, `36.77%` win rate, about `$2902680.60` net PnL, about `19.28%` max drawdown on a `10,000` sim
 - Active limitation: the probability selector is still fit on the same candidate pool, so no true validation or OOS claim is valid yet
-- Goal gap: the current annualized training run-rate is about `$224408.94`, so the stated `$1,000,000` yearly goal is still aspirational rather than supported by validated evidence
+- Active limitation: earlier pre-fix reports that used incorrect MGC contract-unit math should be considered invalid historical checkpoints
+- Goal gap: the corrected annualized training run-rate is about `$4063752.84`, but it is still a same-window training projection and not validated live-use evidence
 
 ## Open Questions
 

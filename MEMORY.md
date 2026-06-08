@@ -2,6 +2,8 @@
 
 Last updated: 2026-06-08 11:40 +10:00
 
+Related: [[ADAPTIVE]] | [[PROJECT_STATE]] | [[README]] | [[RUNBOOK]]
+
 ## Purpose
 
 This file stores durable project memory for `ADAPTIVE` so future sessions can resume work without relying on chat history.
@@ -72,6 +74,8 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-08: The best full 180-day training variant that stayed inside the `20%` drawdown ceiling was the `40` trades/day target, producing `7,137` trades, about `39.87` trades/day, `81.42%` win rate, about `$160292.10` net PnL, and about `18.22%` max drawdown on the `10,000` simulation.
 - 2026-06-08: The `45` and `50` trades/day V2 variants produced higher training PnL but exceeded the drawdown ceiling at about `20.04%` and `21.75%`, so they are not the current accepted baseline.
 - 2026-06-08: The V2 annualized run-rate from the segmented training window is about `$224408.94`, which improves materially on the prior New York-only build but does not honestly justify a `$1,000,000` yearly claim yet.
+- 2026-06-08: A contract-unit audit found that the backtester had been mixing raw MGC price deltas with tick counts, so older Strategy 01 reports materially mis-stated both exits and dollar PnL and should not be treated as trusted evidence.
+- 2026-06-08: After correcting MGC math to use `0.10` price ticks and `$1.00` tick value, a clean rerun of the accepted 180-day V2 `40`-target baseline with `base_runner_9` produced `7,137` trades, about `39.87` trades/day, `36.77%` win rate, about `$2902680.60` net PnL, and about `19.28%` max drawdown on the `10,000` simulation, with selected trades shifting toward London (`3,599`) and New York (`1,036`) relative to the pre-fix report.
 
 ## Consolidated Strategy 01 Checkpoint
 
@@ -86,8 +90,9 @@ This file stores durable project memory for `ADAPTIVE` so future sessions can re
 - 2026-06-08: Canonical active strategy state is now `Strategy 01 V2: MGC absorption reversal across Asia, London, and New York with global daily selection`.
 - 2026-06-08: Session definitions currently used are Asia `20:00-01:00`, London `02:00-08:00`, and New York `08:00-13:00` in New York time.
 - 2026-06-08: V2 keeps the same core event logic but adds `session_code` to the model feature set and ranks all three sessions together each trade day instead of selecting only inside New York.
-- 2026-06-08: On the accepted `40`-target V2 training run, selected trades came mostly from Asia (`4,221`) and London (`2,552`), with New York contributing only `364`, which means the cross-session selector currently finds the strongest opportunities outside the prior New York-only focus.
-- 2026-06-08: The next exact build step is now to freeze the accepted V2 `40`-target configuration and run the first true chronological validation block before any more parameter expansion.
+- 2026-06-08: The pre-fix V2 checkpoint that showed about `$160292.10` net and `81.42%` win rate is no longer trustworthy because it was generated before the MGC contract-unit correction.
+- 2026-06-08: The current corrected V2 `40`-target rerun uses `base_runner_9`, selects `2,502` Asia trades, `3,599` London trades, and `1,036` New York trades, and currently shows no runner-qualified trades because the same-window probability model now scores all selected candidates below the current runner threshold.
+- 2026-06-08: The next exact build step is now to freeze the corrected V2 `40`-target configuration and run the first true chronological validation block before any more parameter expansion or live-use discussion.
 
 ## Research Guardrails
 

@@ -48,3 +48,7 @@ Backlink: [[ADAPTIVE]]
 - Confirmed the accepted V2 training baseline is the `40`-target variant at about `39.87` trades/day, about `$160292.10` net PnL, and about `18.22%` max drawdown on the `10,000` simulation.
 - Confirmed the `45` and `50`-target variants produced higher training PnL but broke the drawdown ceiling, so they were rejected as the active baseline.
 - Recorded that the current annualized training run-rate is about `$224408.94`, which improves materially on V1 but still does not honestly support the stated `$1,000,000` yearly goal.
+- Audited the MGC contract specifications and found the backtester had been mixing raw price deltas with tick counts, which made the earlier Strategy 01 V2 reports unreliable.
+- Corrected the backtester to use `0.10` MGC price ticks and `$1.00` per tick, then reran the accepted 180-day `40`-target V2 baseline with `base_runner_9`.
+- The corrected rerun produced `7,137` trades, about `39.87` trades/day, `36.77%` win rate, about `$2902680.60` net PnL, and about `19.28%` max drawdown on the `10,000` simulation.
+- The corrected rerun also changed the selected session mix to `2,502` Asia trades, `3,599` London trades, and `1,036` New York trades, with `0` runner-qualified trades under the current same-window probability threshold.
