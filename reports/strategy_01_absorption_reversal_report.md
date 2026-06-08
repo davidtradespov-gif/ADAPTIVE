@@ -23,6 +23,7 @@ On 2026-06-08 the MGC tick-to-price and tick-to-dollar conversion bug in the bac
 - Average realized trades per day: `39.87`
 - Net PnL: `$2902680.60`
 - Max drawdown fraction: `0.1928`
+- True intrabar max drawdown fraction: `0.1946`
 - Annualized run-rate from this training window: `$4063752.84`
 
 ## Candidate Search Grid
@@ -47,6 +48,7 @@ On 2026-06-08 the MGC tick-to-price and tick-to-dollar conversion bug in the bac
 - Dynamic contracts cap from 20% drawdown budget: `6`
 - Ending balance: `$2912680.60`
 - Max drawdown dollars: `$1928.40`
+- True intrabar max drawdown dollars: `$1946.40`
 
 ## Session Mix
 
@@ -62,6 +64,7 @@ On 2026-06-08 the MGC tick-to-price and tick-to-dollar conversion bug in the bac
 - V2 keeps the same strategy family and extends it across Asia, London, and New York rather than inventing a new unrelated setup.
 - Daily selection is now global across all modeled sessions, which narrows the focus to the strongest same-day opportunities instead of forcing equal participation from each session.
 - Because the corrected contract math materially changed both PnL and which trades label as successful, the selected session mix and win rate also changed relative to the pre-fix report.
+- The intrabar drawdown figure above is mark-to-market across the replayed bar path used by this backtest, so it is stricter than closed-trade drawdown but still limited by the strategy's bar resolution rather than raw exchange tick-by-tick book reconstruction.
 - The annualized figure above is only a training-window run-rate projection from segmented history, not a validated yearly claim.
 - The next honest step is to freeze this V2 configuration and test it on a later chronological validation block before making any live-quality performance claim.
 

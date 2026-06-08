@@ -52,3 +52,4 @@ Backlink: [[ADAPTIVE]]
 - Corrected the backtester to use `0.10` MGC price ticks and `$1.00` per tick, then reran the accepted 180-day `40`-target V2 baseline with `base_runner_9`.
 - The corrected rerun produced `7,137` trades, about `39.87` trades/day, `36.77%` win rate, about `$2902680.60` net PnL, and about `19.28%` max drawdown on the `10,000` simulation.
 - The corrected rerun also changed the selected session mix to `2,502` Asia trades, `3,599` London trades, and `1,036` New York trades, with `0` runner-qualified trades under the current same-window probability threshold.
+- Added a true mark-to-market intrabar drawdown pass to the corrected baseline and measured about `$1946.40` / `19.46%` intrabar max drawdown versus about `$1928.40` / `19.28%` on a closed-trade basis.

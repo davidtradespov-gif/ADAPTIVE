@@ -353,6 +353,10 @@ def trade_pnl(direction: str, exit_price: float, entries: list[float], round_tri
     return pnl
 
 
+def mtm_pnl(direction: str, mark_price: float, entries: list[float], round_trip_cost: float) -> float:
+    return trade_pnl(direction, mark_price, entries, round_trip_cost)
+
+
 def per_contract_risk_dollars(cfg: StrategyConfig) -> float:
     stop_risk = cfg.hard_stop_ticks * MGC_TICK_VALUE
     round_trip_cost = 2 * cfg.commission_per_side + 2 * cfg.slippage_per_side_ticks * MGC_TICK_VALUE
@@ -400,6 +404,7 @@ def simulate_trades(
         reached_session_end = max_exit_ts == session_end_ts
         exit_reason = "session_flat" if reached_session_end else "time"
         exit_price = float(prices[end_idx - 1])
+        exit_ts = pd.Timestamp(ts_values[end_idx - 1], tz=UTC)
         best_price = entry_price
         stop_distance = cfg.hard_stop_ticks * MGC_TICK_SIZE
         stop_price = entry_price - stop_distance if direction == "long" else entry_price + stop_distance
@@ -427,6 +432,7 @@ def simulate_trades(
                     stop_price = max(stop_price, best_price - trail_distance * MGC_TICK_SIZE)
                 if price <= stop_price:
                     exit_price = stop_price
+                    exit_ts = pd.Timestamp(ts_values[row_idx], tz=UTC)
                     exit_reason = "trailing_stop" if trail_active else "hard_stop"
                     break
                 if (
@@ -434,6 +440,7 @@ def simulate_trades(
                     and signed_flow <= -cfg.opposite_flow_exit_threshold
                 ):
                     exit_price = price
+                    exit_ts = pd.Timestamp(ts_values[row_idx], tz=UTC)
                     exit_reason = "opposite_flow"
                     break
             else:
@@ -453,6 +460,7 @@ def simulate_trades(
                     stop_price = min(stop_price, best_price + trail_distance * MGC_TICK_SIZE)
                 if price >= stop_price:
                     exit_price = stop_price
+                    exit_ts = pd.Timestamp(ts_values[row_idx], tz=UTC)
                     exit_reason = "trailing_stop" if trail_active else "hard_stop"
                     break
                 if (
@@ -460,6 +468,7 @@ def simulate_trades(
                     and signed_flow >= cfg.opposite_flow_exit_threshold
                 ):
                     exit_price = price
+                    exit_ts = pd.Timestamp(ts_values[row_idx], tz=UTC)
                     exit_reason = "opposite_flow"
                     break
         pnl_dollars = trade_pnl(direction, exit_price, entries, round_trip_cost)
@@ -472,11 +481,13 @@ def simulate_trades(
             "session_code": event["session_code"],
             "entry_price": entry_price,
             "exit_price": exit_price,
+            "exit_ts_utc": exit_ts.isoformat(),
             "exit_reason": exit_reason,
             "runner_candidate": runner_candidate,
             "runner_active": runner_active,
             "add_on_count": add_on_count,
             "position_units": len(entries),
+            "entry_prices": list(entries),
             "pnl_dollars_1_contract": pnl_dollars,
         })
     return pd.DataFrame(trades)
@@ -587,6 +598,65 @@ def select_top_candidates(events: pd.DataFrame, cfg: StrategyConfig, daily_trade
     return pd.concat(selected_frames, ignore_index=True)
 
 
+def compute_intrabar_drawdown(realized_trades: pd.DataFrame, cfg: StrategyConfig) -> dict:
+    if realized_trades.empty:
+        return {
+            "intrabar_max_drawdown_dollars": 0.0,
+            "intrabar_max_drawdown_fraction": 0.0,
+        }
+    round_trip_cost = 2 * cfg.commission_per_side + 2 * cfg.slippage_per_side_ticks * MGC_TICK_VALUE
+    sessions_by_label = {session.label: session for session in resolved_sessions(cfg)}
+    equity_events: dict[int, list[float]] = {}
+    for (trade_date, session_name), trades in realized_trades.groupby(["trade_date", "session_name"]):
+        day_path = DATASET_ROOT / f"date={trade_date}"
+        raw = load_day(day_path)
+        session = sessions_by_label.get(session_name)
+        if raw.empty or session is None:
+            continue
+        bars = aggregate_session(filter_session(raw, session)).sort_values("ts_utc").reset_index(drop=True)
+        if bars.empty:
+            continue
+        ts_values = bars["ts_utc"].astype("int64").to_numpy()
+        prices = bars["price"].astype(float).to_numpy()
+        for _, trade in trades.iterrows():
+            entry_ts = pd.Timestamp(trade["event_ts_utc"])
+            exit_ts = pd.Timestamp(trade["exit_ts_utc"])
+            start_idx = ts_values.searchsorted(entry_ts.value, side="right")
+            end_idx = ts_values.searchsorted(exit_ts.value, side="right")
+            if start_idx >= end_idx:
+                continue
+            entries = list(trade["entry_prices"]) if isinstance(trade["entry_prices"], list) else [float(trade["entry_price"])]
+            contracts = int(trade["contracts"])
+            prior_open = 0.0
+            for row_idx in range(start_idx, end_idx):
+                ts_key = int(ts_values[row_idx])
+                open_pnl = mtm_pnl(str(trade["direction"]), float(prices[row_idx]), entries, round_trip_cost) * contracts
+                delta = open_pnl - prior_open
+                event = equity_events.setdefault(ts_key, [0.0, 0.0])
+                event[0] += delta
+                prior_open = open_pnl
+            exit_key = int(ts_values[end_idx - 1])
+            exit_event = equity_events.setdefault(exit_key, [0.0, 0.0])
+            exit_event[1] += float(trade["pnl_dollars"])
+            exit_event[0] -= prior_open
+        del raw, bars
+        gc.collect()
+    equity = cfg.starting_balance
+    peak = equity
+    max_dd = 0.0
+    open_total = 0.0
+    for _, (open_delta, realized_delta) in sorted(equity_events.items()):
+        open_total += open_delta
+        equity += realized_delta
+        mark_to_market_equity = equity + open_total
+        peak = max(peak, mark_to_market_equity)
+        max_dd = max(max_dd, peak - mark_to_market_equity)
+    return {
+        "intrabar_max_drawdown_dollars": max_dd,
+        "intrabar_max_drawdown_fraction": max_dd / cfg.starting_balance,
+    }
+
+
 def apply_dynamic_sizing(trades: pd.DataFrame, cfg: StrategyConfig, daily_trade_target: int, selected_day_count: int) -> dict:
     if trades.empty:
         return {
@@ -594,6 +664,8 @@ def apply_dynamic_sizing(trades: pd.DataFrame, cfg: StrategyConfig, daily_trade_
             "ending_balance": cfg.starting_balance,
             "max_drawdown_dollars": 0.0,
             "max_drawdown_fraction": 0.0,
+            "intrabar_max_drawdown_dollars": 0.0,
+            "intrabar_max_drawdown_fraction": 0.0,
             "avg_trades_per_day": 0.0,
             "net_pnl": 0.0,
             "contracts_cap": 0,
@@ -652,11 +724,15 @@ def apply_dynamic_sizing(trades: pd.DataFrame, cfg: StrategyConfig, daily_trade_
     pnl_values = [trade["pnl_dollars"] for trade in realized]
     net_pnl = balance - cfg.starting_balance
     annualized_run_rate = net_pnl * 252 / max(1, selected_day_count)
+    realized_df = pd.DataFrame(realized)
+    intrabar = compute_intrabar_drawdown(realized_df, cfg)
     return {
         "trades": len(realized),
         "ending_balance": balance,
         "max_drawdown_dollars": max_dd,
         "max_drawdown_fraction": max_dd / cfg.starting_balance,
+        "intrabar_max_drawdown_dollars": intrabar["intrabar_max_drawdown_dollars"],
+        "intrabar_max_drawdown_fraction": intrabar["intrabar_max_drawdown_fraction"],
         "avg_trades_per_day": avg_trades_per_day,
         "net_pnl": net_pnl,
         "baseline_max_drawdown_1_contract": baseline_max_dd,

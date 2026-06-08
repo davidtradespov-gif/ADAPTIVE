@@ -69,6 +69,7 @@ Related: [[ADAPTIVE]] | [[MEMORY]] | [[README]] | [[RUNBOOK]]
 - 2026-06-08: Higher V2 trade-target variants at `45` and `50` trades/day improved gross training PnL but failed the drawdown constraint, so they are not the active accepted baseline.
 - 2026-06-08: A later MGC contract-unit audit found the backtester was incorrectly mixing raw price deltas and tick counts, so earlier Strategy 01 V2 reports generated before the fix are not trustworthy baseline evidence.
 - 2026-06-08: After correcting MGC math and rerunning the accepted 180-day `40`-target V2 baseline with `base_runner_9`, the current corrected result is `7,137` trades, about `39.87` trades/day, `36.77%` win rate, about `$2902680.60` net PnL, and about `19.28%` max drawdown on the `10,000` simulation.
+- 2026-06-08: A stricter mark-to-market replay on the same corrected baseline measured true intrabar max drawdown at about `$1946.40`, or about `19.46%` of the starting `10,000`.
 
 ## Immediate Next Steps
 
@@ -82,7 +83,7 @@ Related: [[ADAPTIVE]] | [[MEMORY]] | [[README]] | [[RUNBOOK]]
 - Dataset scope: last `180` available MGC parquet day folders from the local segmented canonical dataset
 - Current build type: high-frequency managed-exit cross-session training build
 - Selection state: same-window probability-ranked global cross-session daily selection, not chronological validation
-- Accepted corrected rerun: `7,137` trades, about `39.87` trades/day, `36.77%` win rate, about `$2902680.60` net PnL, about `19.28%` max drawdown on a `10,000` sim
+- Accepted corrected rerun: `7,137` trades, about `39.87` trades/day, `36.77%` win rate, about `$2902680.60` net PnL, about `19.28%` closed-trade max drawdown, and about `19.46%` true intrabar max drawdown on a `10,000` sim
 - Active limitation: the probability selector is still fit on the same candidate pool, so no true validation or OOS claim is valid yet
 - Active limitation: earlier pre-fix reports that used incorrect MGC contract-unit math should be considered invalid historical checkpoints
 - Goal gap: the corrected annualized training run-rate is about `$4063752.84`, but it is still a same-window training projection and not validated live-use evidence
